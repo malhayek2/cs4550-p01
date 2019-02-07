@@ -21,7 +21,7 @@ int main()
 	//TokenClass nc;
 	//cout << "Type Name : " << tc.GetTokenTypeName() << endl;
 	//cout << "Type : " << tc.GetTokenType() << endl;
-	while(tc.GetTokenType!=ENDFILE_TOKEN){
+	while(tc.GetTokenType()!=ENDFILE_TOKEN){
 		tc = scanner.GetNextToken();
 		cout << "Token Type: "  << tc.GetTokenType() << "Name:" << tc.GetTokenTypeName() << endl;
 	}
