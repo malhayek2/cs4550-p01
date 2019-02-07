@@ -4,7 +4,7 @@ TokenClass::TokenClass(){}
 
 TokenClass::TokenClass(TokenType type, const string & lexeme)
 {
-	MSG("Initializing Token");
+	//MSG("Initializing Token");
 	this->mType=type;
 	this->mLexeme=lexeme;
 }

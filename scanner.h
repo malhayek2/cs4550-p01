@@ -5,7 +5,7 @@
 using namespace std;
 #include "token.h"
 #include "statemachine.h"
-#include "debug.h"
+
 
 class ScannerClass
 {

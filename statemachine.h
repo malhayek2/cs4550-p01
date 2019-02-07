@@ -1,6 +1,6 @@
 #pragma once
 #include "token.h"
-#include "debug.h"
+
 
 enum MachineState {
 	START_STATE, CANTMOVE_STATE,

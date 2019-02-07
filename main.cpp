@@ -17,10 +17,12 @@ int main()
 	// cout << tok1 << endl;
 	/*in the getNextToken*/
 	
-	TokenType tt = scanner.GetNextToken(); 
-	TokenType nt;
-	while(tt!=ENDFILE_TOKEN){
-		nt = scanner.GetNextToken();
-		cout << tt << endl;
+	TokenClass tc = scanner.GetNextToken();
+	//TokenClass nc;
+	//cout << "Type Name : " << tc.GetTokenTypeName() << endl;
+	//cout << "Type : " << tc.GetTokenType() << endl;
+	while(tc.GetTokenType!=ENDFILE_TOKEN){
+		tc = scanner.GetNextToken();
+		cout << "Token Type: "  << tc.GetTokenType() << "Name:" << tc.GetTokenTypeName() << endl;
 	}
 }

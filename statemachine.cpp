@@ -130,7 +130,7 @@ MachineState StateMachineClass::UpdateState(char currentCharacter,TokenType & co
 {
 	// convert the input character into an input character type
 	CharacterType charType = BAD_CHAR;
-	MSG(currentCharacter<<" "<<correspondingTokenType);
+	//MSG(currentCharacter<<" "<<correspondingTokenType);
 
 	//get out of comment mode
 	if(currentCharacter=='\n'){commentline=false;}
