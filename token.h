@@ -20,6 +20,19 @@ enum TokenType
 	/*Other Token Types:*/
 	BEGIN_TOKEN,END_TOKEN,IDENTIFIER_TOKEN, INTEGER_TOKEN, BAD_TOKEN, ENDFILE_TOKEN, ENDL_TOKEN
 };
+/*Since GetTokenType always prints as an index create an array to match them */
+
+const string TokenTypeChar[]={
+	"VOID_TOKEN", "MAIN_TOKEN", "INT_TOKEN", "COUT_TOKEN", "IF_TOKEN", "ELSE_TOKEN", "WHILE_TOKEN", "BOOL_TOKEN", "TRUE_TOKEN", "FALSE_TOKEN", "REPEAT_TOKEN",
+	/*Relational Operators:*/
+	"LESS_TOKEN", "LESSEQUAL_TOKEN", "GREATER_TOKEN", "GREATEREQUAL_TOKEN", "EQUAL_TOKEN", "NOT_TOKEN", "NOTEQUAL_TOKEN","NEGATE_TOKEN",
+	/*Other Operators:*/
+	"INSERTION_TOKEN", "ASSIGNMENT_TOKEN", "PLUS_TOKEN", "MINUS_TOKEN", "TIMES_TOKEN", "DIVIDE_TOKEN", "PLUSEQUAL_TOKEN", "MINUSEQUAL_TOKEN", "TIMESEQUAL_TOKEN",
+	/*Other Characters:*/
+	"SEMICOLON_TOKEN", "LPAREN_TOKEN", "RPAREN_TOKEN", "LCURLY_TOKEN", "RCURLY_TOKEN", "OR_TOKEN", "AND_TOKEN",
+	/*Other Token Types:*/
+	"BEGIN_TOKEN","END_TOKEN","IDENTIFIER_TOKEN", "INTEGER_TOKEN", "BAD_TOKEN", "ENDFILE_TOKEN", "ENDL_TOKEN"
+};
 const string gTokenTypeNames[] = 
 {
 	"VOID", "MAIN", "INT", "COUT", "IF", "ELSE", "WHILE", "BOOL", "TRUE", "FALSE", "REPEAT",
@@ -35,6 +48,7 @@ public:
 	TokenClass(TokenType type, const string & lexeme);
 	TokenType GetTokenType() const { return mType; }
 	const string & GetTokenTypeName() const { return gTokenTypeNames[mType]; }
+	const string & GetTokenString() const {return TokenTypeChar[mType];}
 	string GetLexeme() const { return mLexeme; }
 	void CheckReserved();
 private:

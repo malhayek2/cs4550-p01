@@ -24,6 +24,9 @@ int main()
 	//cout << "Type : " << tc.GetTokenType() << endl;
 	while(tc.GetTokenType()!=ENDFILE_TOKEN){
 		tc = scanner.GetNextToken();
+		cout << "Current Line Number " << scanner.GetLineNumber() << endl;
+		/*prints TokenTypeName & Lexeme */
+		cout << "TokenType Enum: " << tc.GetTokenString() << endl;
 		cout << tc << endl;
 	}
 }

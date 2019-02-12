@@ -1,6 +1,11 @@
+//This is a line comment 
+/*This is a block comment
+you can use to write mulitple lines of comments */
 void main()
 {
 	int sum;
 	sum = 35 + 400;
+
+
 	cout << sum;
 }

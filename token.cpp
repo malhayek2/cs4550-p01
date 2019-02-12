@@ -30,6 +30,6 @@ void TokenClass::CheckReserved()
 }
 ostream &operator<<(ostream &out, const TokenClass &tc)
 {
-	out<<tc.TokenClass::GetTokenTypeName()<<": '"<<tc.TokenClass::GetLexeme()<<"'";
+	out<< "TokenTypeName:" << tc.TokenClass::GetTokenTypeName()<<" lexeme:"<<tc.TokenClass::GetLexeme()<<"'";
 	return out;
 }

@@ -13,7 +13,7 @@ class ScannerClass
 public:
 	ScannerClass(const char* file);
 	~ScannerClass();
-	int GetLineNumber(){return mLineNumber;};
+	int GetLineNumber();
 	TokenClass GetNextToken();
 	TokenClass PeekNextToken();
 

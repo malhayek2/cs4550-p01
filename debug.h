@@ -2,7 +2,7 @@
 // #ifndef DEBUG
 // #define DEBUG
 /*Prop can be set tp 0 or turn on or off debugging*/
-#define ShowMessages 1
+#define ShowMessages 0
 
 
 #if ShowMessages
