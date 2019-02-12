@@ -2,15 +2,16 @@
 #include <cstdlib>
 using namespace std;
 #include "scanner.h"
+#include "debug.h"
 
 ScannerClass::ScannerClass(const char *file)
 {
-	
+	MSG("Initializing ScannerClass object");
 	this->mLineNumber=1;
 	this->mFin.open(file,ios::binary);
 	if(!mFin)
 	{
-		cout<<"Bad ifstream start" << endl; 
+		MSG("failed to read input file"); 
 		
 	}
 	this->mLocation=0;
@@ -23,6 +24,7 @@ TokenClass ScannerClass::GetNextToken()
 	string lexeme;
 	while(true)
 	{
+		MSG("Reading Next Token");
 		char c=mFin.get();
 		lexeme += c;
 		MachineState ms = StateMachine.UpdateState(c,tt);
@@ -32,7 +34,8 @@ TokenClass ScannerClass::GetNextToken()
 	}
 	if(tt==BAD_TOKEN)
 	{
-		cout<<"Bad State " << endl;
+		cout<<"Bad State: " << tt << endl;
+		MSG("Bad Token Read : "  + tt );
 		exit(1);
 	}
 

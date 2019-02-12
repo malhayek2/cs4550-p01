@@ -1,6 +1,7 @@
 #include "token.h"
 #include "scanner.h"
 #include "statemachine.h"
+#include "debug.h"
 
 #include <iostream>
 #include <vector>
@@ -23,6 +24,6 @@ int main()
 	//cout << "Type : " << tc.GetTokenType() << endl;
 	while(tc.GetTokenType()!=ENDFILE_TOKEN){
 		tc = scanner.GetNextToken();
-		cout << "Token Type: "  << tc.GetTokenType() << "Name:" << tc.GetTokenTypeName() << endl;
+		cout << tc << endl;
 	}
 }

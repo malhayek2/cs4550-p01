@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SCANNER 
+#define SCANNER
 
 #include <fstream>
 #include <iostream>
@@ -21,3 +22,6 @@ private:
 	int mLineNumber;
 	int mLocation;
 };
+
+
+#endif // SCANNER

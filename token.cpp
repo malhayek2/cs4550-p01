@@ -1,15 +1,17 @@
 #include "token.h"
+#include "debug.h"
 
 TokenClass::TokenClass(){}
 
 TokenClass::TokenClass(TokenType type, const string & lexeme)
 {
-	//MSG("Initializing Token");
+	MSG("Initializing Token");
 	this->mType=type;
 	this->mLexeme=lexeme;
 }
 void TokenClass::CheckReserved()
 {
+
 	if(mLexeme=="main"){mType=MAIN_TOKEN;}
 	else if(mLexeme=="repeat"){mType=REPEAT_TOKEN;}
 	else if(mLexeme=="void"){mType=VOID_TOKEN;}

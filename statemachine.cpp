@@ -2,6 +2,7 @@
 #include <cstdlib>
 using namespace std;
 #include "statemachine.h"
+#include "debug.h"
 
 bool commentline=false;
 bool commentblock=false;
@@ -10,7 +11,7 @@ StateMachineClass::StateMachineClass()
 	// First, initialize all the mLegalMoves to CANTMOVE_STATE
 	// Then, reset the mLegalMoves that are legitimate 
 
-	//MSG("~Initializing StateMachine");
+	MSG("Initializing StateMachine");
 	mCurrentState=START_STATE;
 	mLegalMoves[LAST_STATE][LAST_CHAR];
 	mCorrespondingTokenTypes[LAST_STATE];
@@ -128,9 +129,12 @@ StateMachineClass::StateMachineClass()
 char lastchar;
 MachineState StateMachineClass::UpdateState(char currentCharacter,TokenType & correspondingTokenType)
 {
+	MSG("Updating State w currnetChar  " << currentCharacter);
+	//MSG("TokenType " << TokenType );
+	MSG("corresponding Token type " << correspondingTokenType);
 	// convert the input character into an input character type
 	CharacterType charType = BAD_CHAR;
-	//MSG(currentCharacter<<" "<<correspondingTokenType);
+	
 
 	//get out of comment mode
 	if(currentCharacter=='\n'){commentline=false;}
@@ -174,6 +178,7 @@ MachineState StateMachineClass::UpdateState(char currentCharacter,TokenType & co
 
 	if(charType==BAD_CHAR)
 	{
+		MSG("Char Type is bad " + charType);
 		cerr<<"Bad char: " << currentCharacter;
 		exit(1);
 	}
