@@ -1,4 +1,4 @@
-//This is a line comment 
+//Input file 
 /*This is a block comment
 you can use to write mulitple lines of comments */
 void main()
@@ -9,3 +9,7 @@ void main()
 
 	cout << sum;
 }
+
+//test
+/*block comment*/
+

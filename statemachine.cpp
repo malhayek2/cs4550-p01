@@ -129,9 +129,9 @@ StateMachineClass::StateMachineClass()
 char lastchar;
 MachineState StateMachineClass::UpdateState(char currentCharacter,TokenType & correspondingTokenType)
 {
-	MSG("Updating State w currnetChar:  " << currentCharacter);
-	//MSG("TokenType " << TokenType );
-	MSG("corresponding TokenType: " << correspondingTokenType);
+	// MSG("Updating State w currnetChar: " << currentCharacter);
+	
+	// MSG("corresponding TokenType: " << correspondingTokenType);
 	// convert the input character into an input character type
 	CharacterType charType = BAD_CHAR;
 	
