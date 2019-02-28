@@ -2,15 +2,46 @@
 #include "scanner.h"
 #include "statemachine.h"
 #include "debug.h"
-
+#include "Symbol.h"
 #include <iostream>
 #include <vector>
 #include <utility>
 #include <string>
 /*Testing*/
 
+std::string printTrueORFalse(bool given){
+	if(given){
+		return "True";
+	}
+	return "False";
+}
+
+
 int main()
 {
+	/*Constructor */
+	SymbolTableClass mySTC;
+	/*Test AddEntry*/
+
+	mySTC.AddEntry("Hello World");
+	mySTC.AddEntry("Hello UnderWorld");
+	
+	/*Test Exists*/
+	std::cout << "Does Hello World Exists " << printTrueORFalse(mySTC.Exists("Hello World")) << std::endl;
+	/*add SetValue Label, Value*/
+	mySTC.SetValue("Hello World" , 123);
+	/*Get Value*/
+	std::cout << "Getting the value of Hello UnderWorld : "  << mySTC.GetValue("Hello World") << std::endl;
+
+	/*Get Index*/
+	std::cout << "Getting the Index " << mySTC.GetIndex("Hello World") << std::endl;
+	/*Get Count*/
+	std::cout << "Current Count in the SymbolTableClass "  << mySTC.GetCount() << std::endl;
+
+}
+
+
+void testScanner(){
 	ScannerClass scanner("problem01.txt");
 	// TokenType tt = VOID_TOKEN;
 	// string lexeme = "void";
@@ -28,5 +59,5 @@ int main()
 		/*prints TokenTypeName & Lexeme */
 		cout << "TokenType Enum: " << tc.GetTokenString() << endl;
 		cout << tc << endl;
-	}
+	}	
 }

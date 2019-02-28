@@ -1,4 +1,4 @@
-#include <Symbol.h>
+#include "Symbol.h"
 
 
 SymbolTableClass::SymbolTableClass(){
@@ -20,14 +20,15 @@ void SymbolTableClass::AddEntry (const std::string &s){
 	// adds &lt;s&gt; to the symbol table,
 	// or quits if it was already there
 	if(Exists(s)){
-		MSG("The given entry already exists in the SymbolTable.");
+		// MSG("The given entry already exists in the SymbolTable.");
+		std::cerr << "The given entry already exists in the SymbolTable" << std::endl;
 		return;
 	}
 
 	Variable newEntry;
 	/*what is our value key?*/
 	newEntry.mLabel = s;
-	newEntry.mValue = 0;
+	newEntry.mValue = this->GetCount() + 1 ;
 	this->myVector.push_back(newEntry); 
 
 
@@ -39,15 +40,16 @@ int SymbolTableClass::GetValue (const std::string &s){
 	// Prints a message and quits if variable s does not exist.
 	for (unsigned int i = 0; i < this->myVector.size(); i++){
 		if(this->myVector[i].mLabel == s){
-			return this->myVector.mValue; 
+			return this->myVector[i].mValue; 
 		}
 	}
-	MSG("Could not find Value of mlabel" + s);
+	// MSG("Could not find Value of mlabel" + s);
+	std::cerr << "Could not find Value of mlabel" << std::endl;
 
 
 }
 
-void SymbolTableClass::SetValue(const std::string &amp; s, int v){
+void SymbolTableClass::SetValue(const std::string &s, int v){
 // sets variable &lt;s&gt; to the given value, when interpreting.
 // Meaningless for Coding and Executing.
 // Prints a message and quits if variable s does not exist.
@@ -57,21 +59,21 @@ void SymbolTableClass::SetValue(const std::string &amp; s, int v){
 			return;			
 		}
 	}
-	MSG("Could not assign " + s + "with value " + v);
-
+	// MSG("Could not assign " + s + "with value " + v);
+	std::cerr << "Could not assign " << s << " with value " << v << std::endl;
 
 }
 	// returns the index of where variable &lt;s&gt; is.
 	// returns -1 if variable &lt;s&gt; is not there.
 int SymbolTableClass::GetIndex(const std::string &s){
 
-	for (unsigned iint i = 0 ; i < this->myVector.size(); i++){
+	for (unsigned int i = 0 ; i < this->myVector.size(); i++){
 		if(this->myVector[i].mLabel == s){
 			return i;
 		}
 	}
-	MSG("Could not find index of " + s );
-
+	// MSG("Could not find index of " + s );
+	std::cerr << "Could not find the index of " << s << std::endl;
 }
 int SymbolTableClass::GetCount(){
 	// returns the current number of variables in the symbol
