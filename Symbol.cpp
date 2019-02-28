@@ -23,6 +23,7 @@ void SymbolTableClass::AddEntry (const std::string &s){
 		// MSG("The given entry already exists in the SymbolTable.");
 		std::cerr << "The given entry already exists in the SymbolTable" << std::endl;
 		return;
+		exit(1);
 	}
 
 	Variable newEntry;
@@ -56,7 +57,8 @@ void SymbolTableClass::SetValue(const std::string &s, int v){
 	for(unsigned int i = 0; i < this->myVector.size(); i ++){
 		if(this->myVector[i].mLabel == s ){
 			this->myVector[i].mValue = v;
-			return;			
+			return;
+			exit(1);			
 		}
 	}
 	// MSG("Could not assign " + s + "with value " + v);

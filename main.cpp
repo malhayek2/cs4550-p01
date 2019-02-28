@@ -24,14 +24,15 @@ int main()
 	/*Test AddEntry*/
 
 	mySTC.AddEntry("Hello World");
-	mySTC.AddEntry("Hello UnderWorld");
+	/*an error should be thrown*/
+	mySTC.AddEntry("Hello World");
 	
 	/*Test Exists*/
 	std::cout << "Does Hello World Exists " << printTrueORFalse(mySTC.Exists("Hello World")) << std::endl;
 	/*add SetValue Label, Value*/
 	mySTC.SetValue("Hello World" , 123);
 	/*Get Value*/
-	std::cout << "Getting the value of Hello UnderWorld : "  << mySTC.GetValue("Hello World") << std::endl;
+	std::cout << "Getting the NEW value of Hello World : "  << mySTC.GetValue("Hello World") << std::endl;
 
 	/*Get Index*/
 	std::cout << "Getting the Index " << mySTC.GetIndex("Hello World") << std::endl;
