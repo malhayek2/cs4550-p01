@@ -7,6 +7,16 @@ Node::Node(){
 }
 
 /**/
+StartNode::StartNode(ProgramNode *mProgramNode){
+	this->mProgramNode = mProgramNode;
+
+}
+StartNode::~StartNode(){
+	delete mProgramNode;
+}
+
+
+/**/
 ProgramNode::ProgramNode(BlockNode *mBlockNode){
 	this->mBlockNode = mBlockNode;
 }
@@ -28,14 +38,14 @@ StatementGroupNode::~StatementGroupNode(){
 		// mStatementNodeVector.erase(mStatementNodeVector.begin()+i);
 	}
 }
-StatementGroupNode::AddStatment(StatementNode *node){
+void StatementGroupNode::AddStatement(StatementNode *node){
 	mStatementNodeVector.push_back(node);
 }
 /**/
-StatementNod::StatementNod(){
+StatementNode::StatementNode(){
 
 }
-StatementNod::~StatementNod(){
+StatementNode::~StatementNode(){
 
 }
 /**/
@@ -78,14 +88,14 @@ int ExpressionNode::Evaluate(){
 IntegerNode::IntegerNode(int mInt){
 	this->mInt = mInt;
 }
-IntegerNode::~IntegerNode(){
+// IntegerNode::~IntegerNode(){
 
-}
+// }
 int IntegerNode::Evaluate(){
 	return this->mInt;
 }
 /**/
-IdentifierNode::IdentifierNode(string mLabel, SymbolTableClass *mSymbolTableClass){
+IdentifierNode::IdentifierNode(std::string mLabel, SymbolTableClass *mSymbolTableClass){
 	this->mLabel = mLabel;
 	this->mSymbolTableClass = mSymbolTableClass;
 }
@@ -121,6 +131,6 @@ PlusNode::PlusNode(ExpressionNode * left, ExpressionNode * right)
 {
 }
 
-PlusNode::Evaluate(){
-	return left->Evaluate() + right->Evaluate();
+int PlusNode::Evaluate(){
+	return (left->Evaluate() + right->Evaluate());
 }
