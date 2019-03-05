@@ -19,25 +19,7 @@ std::string printTrueORFalse(bool given){
 
 int main()
 {
-	/*Constructor */
-	SymbolTableClass mySTC;
-	/*Test AddEntry*/
-
-	mySTC.AddEntry("Hello World");
-	/*an error should be thrown*/
-	mySTC.AddEntry("Hello World");
-	
-	/*Test Exists*/
-	std::cout << "Does Hello World Exists " << printTrueORFalse(mySTC.Exists("Hello World")) << std::endl;
-	/*add SetValue Label, Value*/
-	mySTC.SetValue("Hello World" , 123);
-	/*Get Value*/
-	std::cout << "Getting the NEW value of Hello World : "  << mySTC.GetValue("Hello World") << std::endl;
-
-	/*Get Index*/
-	std::cout << "Getting the Index " << mySTC.GetIndex("Hello World") << std::endl;
-	/*Get Count*/
-	std::cout << "Current Count in the SymbolTableClass "  << mySTC.GetCount() << std::endl;
+	/*Testing Nodes */
 
 }
 
@@ -61,4 +43,24 @@ void testScanner(){
 		cout << "TokenType Enum: " << tc.GetTokenString() << endl;
 		cout << tc << endl;
 	}	
+}
+
+void testSymbolTable(){
+	/*Constructor */
+	SymbolTableClass mySTC;
+	/*Test AddEntry*/
+	mySTC.AddEntry("Hello World");
+	/*an error should be thrown*/
+	mySTC.AddEntry("Hello World");
+	/*Test Exists*/
+	std::cout << "Does Hello World Exists " << printTrueORFalse(mySTC.Exists("Hello World")) << std::endl;
+	/*add SetValue Label, Value*/
+	mySTC.SetValue("Hello World" , 123);
+	/*Get Value*/
+	std::cout << "Getting the NEW value of Hello World : "  << mySTC.GetValue("Hello World") << std::endl;
+	/*Get Index*/
+	std::cout << "Getting the Index " << mySTC.GetIndex("Hello World") << std::endl;
+	/*Get Count*/
+	std::cout << "Current Count in the SymbolTableClass "  << mySTC.GetCount() << std::endl;
+
 }
