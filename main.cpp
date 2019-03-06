@@ -7,6 +7,7 @@
 #include <vector>
 #include <utility>
 #include <string>
+#include "node.h"
 /*Testing*/
 
 std::string printTrueORFalse(bool given){
@@ -20,7 +21,30 @@ std::string printTrueORFalse(bool given){
 int main()
 {
 	/*Testing Nodes */
+	StatementGroupNode *statementgroupnode=new StatementGroupNode(); //no paramaters-added later
+	SymbolTableClass *mySTC = new SymbolTableClass() ;
+	mySTC->AddEntry("Hello World");
+	IdentifierNode *identifiernode=new IdentifierNode("sum", mySTC );//symboltable address
+	IntegerNode *integernode=new IntegerNode(5);
+	
+	AssignmentStatementNode *assignmentstatementnode=new AssignmentStatementNode(identifiernode,integernode);
+	DeclarationStatementNode *declarationstatementnode=new DeclarationStatementNode(identifiernode);
+	CoutStatementNode *coutstatementnode=new CoutStatementNode(identifiernode);
+	/*testing add Statement pushs back nodes into the gourp */
+	/*since they are inherited from Node, they should be okay as a parameter*/
+	statementgroupnode->AddStatement(declarationstatementnode);
+	statementgroupnode->AddStatement(assignmentstatementnode);
+	statementgroupnode->AddStatement(coutstatementnode);
+	/*PlusNode is inherited from BinaryOperatorNode, Testing its contructor = tesing BinaryOperatorNode */
+	PlusNode *plusnode=new PlusNode(integernode,integernode);
+	std::cout<<"plusnode: "<<plusnode->Evaluate()<<std::endl;
 
+	BlockNode *blocknode=new BlockNode(statementgroupnode);
+	ProgramNode *programnode=new ProgramNode(blocknode);
+	StartNode *startnode=new StartNode(programnode);
+
+	delete startnode;
+	return 0;
 }
 
 

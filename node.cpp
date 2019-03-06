@@ -1,8 +1,6 @@
 #include "node.h"
-
-
-
-Node::Node(){
+#include <iostream>
+Node::~Node(){
 
 }
 
@@ -13,6 +11,8 @@ StartNode::StartNode(ProgramNode *mProgramNode){
 }
 StartNode::~StartNode(){
 	delete mProgramNode;
+	std::cout << "StartNode Deleting ProgramNode " << std::endl;
+
 }
 
 
@@ -22,6 +22,7 @@ ProgramNode::ProgramNode(BlockNode *mBlockNode){
 }
 ProgramNode::~ProgramNode(){
 	delete mBlockNode;
+	std::cout << "ProgramNode Deleting BlockNode " << std::endl;
 }
 /**/
 BlockNode::BlockNode(StatementGroupNode *mStatementGroupNode){
@@ -29,12 +30,14 @@ BlockNode::BlockNode(StatementGroupNode *mStatementGroupNode){
 }
 BlockNode::~BlockNode(){
 	delete mStatementGroupNode;
+	std::cout << "BlockNode Deleting StatementGroupNode" << std::endl;	
 }
 /**/
 StatementGroupNode::StatementGroupNode(){}
 StatementGroupNode::~StatementGroupNode(){
 	for (unsigned int i = 0; i > mStatementNodeVector.size(); i++){
 		delete mStatementNodeVector[i];
+		std::cout << "StatementGroupNode Deleting StatementNode Index  " << i << std::endl;
 		// mStatementNodeVector.erase(mStatementNodeVector.begin()+i);
 	}
 }
@@ -133,4 +136,7 @@ PlusNode::PlusNode(ExpressionNode * left, ExpressionNode * right)
 
 int PlusNode::Evaluate(){
 	return (left->Evaluate() + right->Evaluate());
+}
+PlusNode::~PlusNode(){
+	//Nothing really
 }

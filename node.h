@@ -3,11 +3,25 @@
 #include <vector>
 #include "Symbol.h"
 #include <string>
+class Node;
+class StartNode;
+class BlockNode;
+class ProgramNode;
+class StatementGroupNode;
+class StatementNode;
+class DeclarationStatementNode;
+class AssignmentStatementNode;
+class CoutStatementNode;
+class ExpressionNode;
+class IntegerNode;
+class IdentifierNode;
+class BinaryOperatorNode;
+class PlusNode;
+
 
 class Node{
 public:
 	virtual ~Node();
-	Node();
 
 private:
 };

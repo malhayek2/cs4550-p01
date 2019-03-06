@@ -46,7 +46,7 @@ int SymbolTableClass::GetValue (const std::string &s){
 	}
 	// MSG("Could not find Value of mlabel" + s);
 	std::cerr << "Could not find Value of mlabel" << std::endl;
-
+	exit(1);
 
 }
 
@@ -63,7 +63,7 @@ void SymbolTableClass::SetValue(const std::string &s, int v){
 	}
 	// MSG("Could not assign " + s + "with value " + v);
 	std::cerr << "Could not assign " << s << " with value " << v << std::endl;
-
+	exit(1);
 }
 	// returns the index of where variable &lt;s&gt; is.
 	// returns -1 if variable &lt;s&gt; is not there.
@@ -76,6 +76,7 @@ int SymbolTableClass::GetIndex(const std::string &s){
 	}
 	// MSG("Could not find index of " + s );
 	std::cerr << "Could not find the index of " << s << std::endl;
+	exit(1);
 }
 int SymbolTableClass::GetCount(){
 	// returns the current number of variables in the symbol
