@@ -1,4 +1,5 @@
 #include "node.h"
+#include "debug.h"
 #include <iostream>
 Node::~Node(){
 
@@ -139,4 +140,113 @@ int PlusNode::Evaluate(){
 }
 PlusNode::~PlusNode(){
 	//Nothing really
+}
+/*The remaning Binary Operators*/
+
+MinusNode::MinusNode(ExpressionNode * left, ExpressionNode * right)
+	: BinaryOperatorNode(left, right)
+{
+	// MSG("Initializing MinusNode");
+}
+
+int MinusNode::Evaluate() {
+
+	return( left->Evaluate() - right->Evaluate());
+
+
+}
+/**/
+TimesNode::TimesNode(ExpressionNode * left, ExpressionNode * right)
+	: BinaryOperatorNode(left, right)
+{
+	// MSG("Initializing TimesNode");
+}
+int TimesNode::Evaluate() {
+	
+	return (left->Evaluate() * right->Evaluate());
+	
+}
+/**/
+DivideNode::DivideNode(ExpressionNode * left, ExpressionNode * right)
+	: BinaryOperatorNode(left, right)
+{
+	// MSG("Initializing DivideNode");
+}
+int DivideNode::Evaluate() {
+
+	 return (left->Evaluate() / right->Evaluate());
+
+}
+/**/
+LessNode::LessNode(ExpressionNode * left, ExpressionNode * right)
+	: BinaryOperatorNode(left, right)
+{
+	// MSG("Initializing LessNode");
+}
+
+
+int LessNode::Evaluate() {
+	if (left->Evaluate() < right->Evaluate()) { return 1; }
+	return 0;
+}
+/**/
+LessEqualNode::LessEqualNode(ExpressionNode * left, ExpressionNode * right)
+	: BinaryOperatorNode(left, right)
+{
+	// MSG("Initializing LessEqualNode");
+}
+
+
+int LessEqualNode::Evaluate() {
+	if (left->Evaluate() <= right->Evaluate()) { return 1; }
+
+	return 0;
+}
+/**/
+GreaterNode::GreaterNode(ExpressionNode * left, ExpressionNode * right)
+	: BinaryOperatorNode(left, right)
+{
+	// MSG("Initializing GreaterNode");
+}
+
+/**/
+int GreaterNode::Evaluate() {
+	if (left->Evaluate() > right->Evaluate()) { return 1; }
+	return 0;
+}
+
+GreaterEqualNode::GreaterEqualNode(ExpressionNode * left, ExpressionNode * right)
+	: BinaryOperatorNode(left, right)
+{
+	// MSG("Initializing GreaterEqualNode");
+}
+
+
+int GreaterEqualNode::Evaluate() {
+	if (left->Evaluate() <= right->Evaluate()) { return 1; }
+	return 0;
+}
+/**/
+EqualNode::EqualNode(ExpressionNode * left, ExpressionNode * right)
+	: BinaryOperatorNode(left, right)
+{
+	// MSG("Initializing EqualNode");
+}
+
+
+int EqualNode::Evaluate() {
+	if (left->Evaluate() == right->Evaluate()) { return 1; }
+	return 0;
+}
+/**/
+NotEqualNode::NotEqualNode(ExpressionNode * left, ExpressionNode * right)
+	: BinaryOperatorNode(left, right)
+{
+	// MSG("Initializing NotEqualNode");
+}
+
+
+int NotEqualNode::Evaluate() {
+	if (left->Evaluate() != right->Evaluate()) { return 1; }
+	return 0;
 }

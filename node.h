@@ -163,4 +163,107 @@ private:
 
 
 
+class MinusNode : public BinaryOperatorNode {
+public:
+	MinusNode(ExpressionNode * left, ExpressionNode * right);
+	int Evaluate();
+	
+private:
+};
+
+
+class TimesNode : public BinaryOperatorNode {
+public:
+	TimesNode(ExpressionNode * left, ExpressionNode * right);
+	int Evaluate();
+
+private:
+};
+
+
+class DivideNode : public BinaryOperatorNode {
+public:
+	DivideNode(ExpressionNode * left, ExpressionNode * right);
+	int Evaluate();
+
+private:
+};
+
+
+class LessNode : public BinaryOperatorNode {
+public:
+	LessNode(ExpressionNode * left, ExpressionNode * right);
+	int Evaluate();
+
+private:
+};
+
+
+class LessEqualNode : public BinaryOperatorNode {
+public:
+	LessEqualNode(ExpressionNode * left, ExpressionNode * right);
+	int Evaluate();
+	
+private:
+};
+
+
+class GreaterNode : public BinaryOperatorNode {
+public:
+	GreaterNode(ExpressionNode * left, ExpressionNode * right);
+	int Evaluate();
+
+private:
+};
+
+class GreaterEqualNode : public BinaryOperatorNode {
+public:
+	GreaterEqualNode(ExpressionNode * left, ExpressionNode * right);
+	int Evaluate();
+
+private:
+};
+
+
+class EqualNode : public BinaryOperatorNode {
+public:
+	EqualNode(ExpressionNode * left, ExpressionNode * right);
+	int Evaluate();
+
+private:
+};
+/**/
+
+class NotEqualNode : public BinaryOperatorNode {
+public:
+	NotEqualNode(ExpressionNode * left, ExpressionNode * right);
+	int Evaluate();
+
+private:
+};
+
+// class AndNode : public BinaryOperatorNode {
+// public:
+// 	AndNode(ExpressionNode * left, ExpressionNode * right);
+// 	int Evaluate();
+// 	void CodeEvaluate(InstructionsClass &instr);
+// private:
+// };
+// class OrNode : public BinaryOperatorNode {
+// public:
+// 	OrNode(ExpressionNode * left, ExpressionNode * right);
+// 	int Evaluate();
+// 	void CodeEvaluate(InstructionsClass &instr);
+// private:
+// };
+// class NotNode : public ExpressionNode {
+// public:
+// 	NotNode(ExpressionNode * right);
+// 	int Evaluate();
+// 	void CodeEvaluate(InstructionsClass &instr);
+// private:
+// 	ExpressionNode * mExpressionNode;
+// };
+
+
 #endif // NODE

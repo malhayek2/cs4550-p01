@@ -21,12 +21,12 @@ std::string printTrueORFalse(bool given){
 int main()
 {
 	/*Testing Nodes */
-	StatementGroupNode *statementgroupnode=new StatementGroupNode(); //no paramaters-added later
+	StatementGroupNode *statementgroupnode=new StatementGroupNode(); 
 	SymbolTableClass *mySTC = new SymbolTableClass() ;
 	mySTC->AddEntry("Hello World");
 	IdentifierNode *identifiernode=new IdentifierNode("sum", mySTC );//symboltable address
-	IntegerNode *integernode=new IntegerNode(5);
-	
+	IntegerNode *integernode= new IntegerNode(5);
+	IntegerNode *integernode2 = new IntegerNode(10);
 	AssignmentStatementNode *assignmentstatementnode=new AssignmentStatementNode(identifiernode,integernode);
 	DeclarationStatementNode *declarationstatementnode=new DeclarationStatementNode(identifiernode);
 	CoutStatementNode *coutstatementnode=new CoutStatementNode(identifiernode);
@@ -36,8 +36,36 @@ int main()
 	statementgroupnode->AddStatement(assignmentstatementnode);
 	statementgroupnode->AddStatement(coutstatementnode);
 	/*PlusNode is inherited from BinaryOperatorNode, Testing its contructor = tesing BinaryOperatorNode */
-	PlusNode *plusnode=new PlusNode(integernode,integernode);
-	std::cout<<"plusnode: "<<plusnode->Evaluate()<<std::endl;
+	PlusNode *plusnode=new PlusNode(integernode,integernode2);
+	std::cout << "plusnode evaluate : " << plusnode->Evaluate() <<std::endl;
+	/*Testing Other BinaryOperatorNodes and their evaluate should be 1 or 0?*/
+	MinusNode *minusnode = new MinusNode(integernode,integernode2);
+	std::cout << "minusnode evaluate: " << minusnode->Evaluate() <<std::endl;
+
+	TimesNode *timesNode = new TimesNode(integernode,integernode2);
+	std::cout << "timesNode evaluate: " << timesNode->Evaluate() <<std::endl;
+
+	DivideNode *divideNode = new DivideNode(integernode,integernode2);
+	std::cout << "divideNode evaluate: " << divideNode->Evaluate() <<std::endl;
+	/*Those node's evaluate are blooeans therefore it has to be 0 or 1 */
+	LessNode *lessnode = new LessNode(integernode,integernode2);
+	std::cout << "lessnode evaluate: " << lessnode->Evaluate() <<std::endl;
+
+	LessEqualNode *lessequalnode = new LessEqualNode(integernode,integernode2);
+	std::cout << "lessequalnode evaluate: " << lessequalnode->Evaluate() <<std::endl;
+
+	GreaterNode *greaternode = new GreaterNode(integernode,integernode2);
+	std::cout << "greaternode evaluate: " << greaternode->Evaluate() <<std::endl;
+
+	GreaterEqualNode *greaterequalnode = new GreaterEqualNode(integernode,integernode);
+	std::cout << "greaterequalnode evaluate 5 & 5: " << greaterequalnode->Evaluate() <<std::endl;
+
+	EqualNode *equalNode = new EqualNode(integernode,integernode);
+	std::cout << "equalNode evaluate 5 & 5: " << equalNode->Evaluate() <<std::endl;
+
+	NotEqualNode *notequalNode = new NotEqualNode(integernode,integernode2);
+	std::cout << "notequalNode evaluate 5 & 10: " << notequalNode->Evaluate() <<std::endl;
+
 
 	BlockNode *blocknode=new BlockNode(statementgroupnode);
 	ProgramNode *programnode=new ProgramNode(blocknode);
