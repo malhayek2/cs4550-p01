@@ -6,7 +6,7 @@
 
 
 #if ShowMessages
-#define MSG(X) cout << X << endl;
+#define MSG(X) std::cout << X << std::endl;
 #else 
 #define MSG(X);
 #endif

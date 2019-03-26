@@ -16,10 +16,11 @@ public:
 	int GetLineNumber();
 	TokenClass GetNextToken();
 	TokenClass PeekNextToken();
+	int mLineNumber;
 
 private:
 	ifstream  mFin;
-	int mLineNumber;
+
 	int mLocation;
 };
 

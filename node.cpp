@@ -250,3 +250,76 @@ int NotEqualNode::Evaluate() {
 	if (left->Evaluate() != right->Evaluate()) { return 1; }
 	return 0;
 }
+
+
+
+/**added Nodes for  parser**/
+
+
+
+//OR NODE
+OrNode::OrNode(ExpressionNode *left, ExpressionNode *right)
+	: BinaryOperatorNode(left, right)
+{
+	MSG("Or node initialized.");
+}
+
+OrNode::~OrNode() { 
+	MSG("Or node destroyed.");
+}
+
+int OrNode::Evaluate() {
+	int res = left->Evaluate() || right->Evaluate();
+	MSG("NotEqual node evaluated to " << res);
+	return res;
+}
+
+
+//AND NODE
+AndNode::AndNode(ExpressionNode *left, ExpressionNode *right)
+	: BinaryOperatorNode(left, right)
+{
+	MSG("NotEqual node initialized.");
+}
+
+AndNode::~AndNode() {
+	MSG("NotEqual node destroyed.");
+}
+
+int AndNode::Evaluate() {
+	int res = left->Evaluate() && right->Evaluate();
+	MSG("NotEqual node evaluated to " << res);
+	return res;
+}
+
+
+
+
+
+
+
+
+NotNode::NotNode(ExpressionNode *exp)
+{
+	this->mExpressionNode = exp;
+	MSG("Not node initialized.");
+}
+	
+NotNode::~NotNode() {
+	delete this->mExpressionNode;
+	MSG("Plus node destroyed.");
+}
+
+int NotNode::Evaluate() {
+	int res = mExpressionNode->Evaluate();
+	if(res) {
+		return 0;
+	}
+	else {
+		return 1;
+	}
+	MSG("Not node evaluated as " << res);
+}
+
+// 
+

@@ -1,48 +1,37 @@
-#pragma once
-
 #include "token.h"
-#include "scanner.h"
-#include "symbol.h"
 #include "node.h"
+#include "scanner.h"
+#include "Symbol.h"
 
-class ParserClass
-{
+class ParserClass {
 public:
-	ParserClass(ScannerClass *sc, SymbolTableClass *stc);
-	~ParserClass();
-	StartNode* Start();
-	SymbolTableClass *getSymbolTable();
+	ParserClass(ScannerClass * scanner, SymbolTableClass * symbol);
+	StartNode * Start();
 
 private:
-	TokenClass Match(TokenType expectedType);
+	TokenClass Match(TokenType expected);
+	ProgramNode * Program();
+	BlockNode * Block();
+	StatementGroupNode * StatementGroup();
+	// IfNode * If();
+	// WhileNode * While();
+	DeclarationStatementNode * DeclarationStatement();
+	AssignmentStatementNode * AssignmentStatement();
+	CoutStatementNode * CoutStatement();
+	/*Added Nodes !! */
+	ExpressionNode * Expression();
+	ExpressionNode * And();
 
-	StatementGroupNode *StatementGroup();
+	ExpressionNode * Relational();
+	ExpressionNode * PlusMinus();
+	ExpressionNode * TimesDivide();
+	ExpressionNode * Not();
+	ExpressionNode * Factor();
+	IdentifierNode * Identifier();
+	IntegerNode * Integer();
 
-	ExpressionNode *Term();
-	ExpressionNode *Expression();
-	ExpressionNode *Side();
-	ExpressionNode *Factor();
-	ExpressionNode *Relational();
-	ExpressionNode *And();
-	ExpressionNode *Or();
-
-	BooleanNode *Boolean();
-	IdentifierNode *Identifier();
-	IntegerNode *Integer();
-
-	ProgramNode *Program();
-
-	BlockNode *Block();
-	BlockNode *Blockwords();
-
-	StatementNode *Statement();
-	IfStatementNode *IfStatement();
-	WhileStatementNode *WhileStatement();
-
-	DeclarationStatementNode *DeclarationStatement();
-	AssignmentStatementNode *AssignmentStatement();
-	CoutStatementNode *CoutStatement();
-
-	ScannerClass *mScanner;
-	SymbolTableClass *mSymbolTable;
+	
+	ScannerClass * mScanner;
+	SymbolTableClass * mSymbol;
 };
+

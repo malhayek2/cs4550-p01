@@ -17,6 +17,9 @@ class IntegerNode;
 class IdentifierNode;
 class BinaryOperatorNode;
 class PlusNode;
+class OrNode;
+class AndNode;
+class NotNode;
 
 
 class Node{
@@ -42,7 +45,7 @@ private:
 std::vector <StatementNode *> mStatementNodeVector;
 };
 /**/
-class BlockNode: public Node{
+class BlockNode: public StatementNode{
 public:
 	virtual ~BlockNode();
 	BlockNode(StatementGroupNode *mStatementGroupNode);
@@ -242,28 +245,31 @@ public:
 private:
 };
 
-// class AndNode : public BinaryOperatorNode {
-// public:
-// 	AndNode(ExpressionNode * left, ExpressionNode * right);
-// 	int Evaluate();
-// 	void CodeEvaluate(InstructionsClass &instr);
-// private:
-// };
-// class OrNode : public BinaryOperatorNode {
-// public:
-// 	OrNode(ExpressionNode * left, ExpressionNode * right);
-// 	int Evaluate();
-// 	void CodeEvaluate(InstructionsClass &instr);
-// private:
-// };
-// class NotNode : public ExpressionNode {
-// public:
-// 	NotNode(ExpressionNode * right);
-// 	int Evaluate();
-// 	void CodeEvaluate(InstructionsClass &instr);
-// private:
-// 	ExpressionNode * mExpressionNode;
-// };
+class AndNode : public BinaryOperatorNode {
+public:
+	AndNode(ExpressionNode * left, ExpressionNode * right);
+	virtual ~AndNode();
+	int Evaluate();
+	// void CodeEvaluate(InstructionsClass &instr);
+private:
+};
+class OrNode : public BinaryOperatorNode {
+public:
+	OrNode(ExpressionNode * left, ExpressionNode * right);
+	virtual ~OrNode();
+	int Evaluate();
+	// void CodeEvaluate(InstructionsClass &instr);
+private:
+};
+class NotNode : public ExpressionNode {
+public:
+	NotNode(ExpressionNode * right);
+	virtual ~NotNode();
+	int Evaluate();
+	// void CodeEvaluate(InstructionsClass &instr);
+private:
+	ExpressionNode * mExpressionNode;
+};
 
 
 #endif // NODE
