@@ -8,6 +8,7 @@
 #include <utility>
 #include <string>
 #include "node.h"
+#include "parser.h"
 /*Testing*/
 
 std::string printTrueORFalse(bool given){
@@ -17,9 +18,14 @@ std::string printTrueORFalse(bool given){
 	return "False";
 }
 
-
-int main()
+int parserclass(ScannerClass *scanner,SymbolTableClass *symtable)
 {
+	ParserClass pc(scanner,symtable);
+	//cout<< pc->Start() <<endl;
+	pc.Start();
+	return 0;
+}
+void nodesTestSymbolTable(){
 	/*Testing Nodes */
 	StatementGroupNode *statementgroupnode=new StatementGroupNode(); 
 	SymbolTableClass *mySTC = new SymbolTableClass() ;
@@ -72,6 +78,19 @@ int main()
 	StartNode *startnode=new StartNode(programnode);
 
 	delete startnode;
+	// return 0;
+}
+int main()
+
+{
+	/**/
+	const char *file="problem01.txt";
+	ScannerClass scanner(file);
+	SymbolTableClass mySTC; 
+
+	ParserClass pc(&scanner,&mySTC);
+	//cout<< pc->Start() <<endl;
+	pc.Start();
 	return 0;
 }
 
