@@ -1,6 +1,6 @@
 CXX := g++
-CXXFLAGS := -std=c++11 -Wall 
-LDFLAGS := -lglut
+CXXFLAGS := -std=c++11 -Wall -fno-stack-protector -D_FORTIFY_SOURCE=0
+LDFLAGS := -lglut 
 TARGET := main
 # LDFLAGS = -lGL -lGLU -lglut
 SOURCES := ${wildcard *.cpp}

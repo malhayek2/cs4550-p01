@@ -1,6 +1,19 @@
 #include "parser.h"
 #include "debug.h"
 
+/*debugging*/
+const string ggTokenTypeNames[] = 
+{
+	"VOID", "MAIN", "INT", "COUT", "IF", "ELSE", "WHILE", "BOOL", "TRUE", "FALSE", "REPEAT",
+	"LESS", "LESSEQUAL", "GREATER", "GREATEREQUAL", "EQUAL", "NOT","NOTEQUAL","NEGATE",
+	"INSERTION", "ASSIGNMENT", "PLUS", "MINUS", "TIMES", "DIVIDE","PLUSEQUAL","MINUSEQUAL","TIMESEQUAL",
+	"SEMICOLON", "LPAREN", "RPAREN", "LCURLY", "RCURLY","OR","AND",
+	"BEGIN","END","IDENTIFIER", "INTEGER", "BAD", "ENDFILE","ENDL"
+};
+
+
+
+
 ParserClass::ParserClass(ScannerClass * scanner, SymbolTableClass * symbol) {
 	this->mScanner = scanner;
 	this->mSymbol = symbol;
@@ -9,7 +22,10 @@ ParserClass::ParserClass(ScannerClass * scanner, SymbolTableClass * symbol) {
 TokenClass ParserClass::Match(TokenType expectedType)
 {
 	TokenClass currentToken = mScanner->GetNextToken();
+	std::cout << "ExpectedType Name " << ggTokenTypeNames[expectedType] << std::endl;
+	std::cout << "Read Token" <<  currentToken.GetTokenTypeName() << std::endl;
 	if(currentToken.GetTokenType() != expectedType)
+
 	{
 		cerr << "Error in ParserClass::Match. " << endl;
 		cerr << "Expected token type " << 
@@ -24,6 +40,7 @@ TokenClass ParserClass::Match(TokenType expectedType)
 }
 
 StartNode * ParserClass::Start() {
+	MSG("Start Node");
 	ProgramNode *p = Program();
 	Match(ENDFILE_TOKEN);
 	StartNode *s = new StartNode(p);
@@ -31,6 +48,7 @@ StartNode * ParserClass::Start() {
 }
 
 ProgramNode * ParserClass::Program() {
+	MSG("ProgramNode Program");
 	Match(VOID_TOKEN);
 	Match(MAIN_TOKEN);
 	Match(LPAREN_TOKEN);
@@ -41,71 +59,59 @@ ProgramNode * ParserClass::Program() {
 }
 
 BlockNode * ParserClass::Block() {
+	MSG("BlockNode Block");
 	Match(LCURLY_TOKEN);
+	/*then recursively calls the
+	 	ParserClass::StatementGroup() method, then insists on matching an
+	RCURLY_TOKEN, then returns.*/
 	StatementGroupNode * sg = StatementGroup();
+
+
+
 	Match(RCURLY_TOKEN);
 	BlockNode *b = new BlockNode(sg);
 	return b;
 }
 
-// IfNode * ParserClass::If() {
-// 	Match(IF_TOKEN);
-// 	Match(LPAREN_TOKEN);
-// 	ExpressionNode *exp = Expression();
-// 	Match(RPAREN_TOKEN);
-// 	BlockNode *bn = Block();
-// 	IfNode *ifn = new IfNode(exp, bn);
-// 	return ifn;
-// }
 
-// WhileNode * ParserClass::While() {
-// 	Match(WHILE_TOKEN);
-// 	Match(LPAREN_TOKEN);
-// 	ExpressionNode *exp = Expression();
-// 	Match(RPAREN_TOKEN);
-// 	BlockNode *bn = Block();
-// 	WhileNode *wh = new WhileNode(exp, bn);
-// 	return wh;
-// }
 
 StatementGroupNode * ParserClass::StatementGroup() { 
-	TokenType ptt = mScanner->PeekNextToken().GetTokenType();
-	StatementGroupNode *sg = new StatementGroupNode();
-	if(ptt == INT_TOKEN) {
-		DeclarationStatementNode *ds = DeclarationStatement();
-		sg = StatementGroup();
-		sg->AddStatement(ds);
-	}
-	else if(ptt == IDENTIFIER_TOKEN) {
-		AssignmentStatementNode *as = AssignmentStatement();
-		sg = StatementGroup();
-		sg->AddStatement(as);
-	}
-	else if(ptt == COUT_TOKEN) {
-		CoutStatementNode *cs = CoutStatement();
-		sg = StatementGroup();
-		sg->AddStatement(cs);
-	}
-	else if(ptt == LCURLY_TOKEN) {
-		BlockNode *bs = Block();
-		sg = StatementGroup();
-		sg->AddStatement(bs);
-	}
-	// else if(ptt == IF_TOKEN) {
-	// 	IfNode *ifn = If();
-	// 	sg = StatementGroup();
-	// 	sg->AddStatement(ifn);
-	// }
-	// else if(ptt == WHILE_TOKEN) {
-	// 	WhileNode *wh = While();
-	// 	sg = StatementGroup();
-	// 	sg->AddStatement(wh);
-	// }
-	else {}
-	return sg;
+/*ParserClass::StatementGroup(), call the Statement() method over and over in a
+while loop until it returns NULL.*/
+	auto statementGroupNode = new StatementGroupNode();
+
+    while (true) {
+        auto statement = Statement();
+        if (!statement) { break; }
+        statementGroupNode->AddStatement(statement);
+    }
+return statementGroupNode;
+}
+
+
+StatementNode *ParserClass::Statement() {
+	/*ParserClass::Statement() method needs to “peek” at the next token that will
+be coming from the scanner to decide what to do next. We are currently
+supporting only three kinds of statements – DeclarationStatements,
+AssignmentStatements, and CoutStatements. They begin with INT_TOKEN,
+IDENTIFIER_TOKEN, and COUT_TOKEN tokens respectively. If the next token
+is one of those three, the corresponding method is recursively called, and the
+return value should be “true” (eventually a node pointer). If*/
+    auto token = mScanner->PeekNextToken().GetTokenType();
+    switch (token) {
+        case INT_TOKEN:
+            return DeclarationStatement();
+        case IDENTIFIER_TOKEN:
+            return AssignmentStatement();
+        case COUT_TOKEN:
+            return CoutStatement();
+        default:
+            return NULL;
+    }
 }
 
 DeclarationStatementNode * ParserClass::DeclarationStatement() {
+	MSG("DeclarationStatement Node");
 	Match(INT_TOKEN);
 	IdentifierNode *id = Identifier();
 	//IdentifierNode *id = new IdentifierNode("test",mSymbol);		//change from 'test' and delete gettokens later
@@ -116,6 +122,7 @@ DeclarationStatementNode * ParserClass::DeclarationStatement() {
 }
 
 CoutStatementNode * ParserClass::CoutStatement() {
+	MSG("CoutStatement Node");
 	Match(COUT_TOKEN);
 	Match(INSERTION_TOKEN);
 	ExpressionNode *exp = Expression();
@@ -126,6 +133,7 @@ CoutStatementNode * ParserClass::CoutStatement() {
 }
 
 AssignmentStatementNode * ParserClass::AssignmentStatement() {
+	MSG("AssignmentStatement Node");
 	IdentifierNode *id = Identifier();
 	Match(ASSIGNMENT_TOKEN);
 	ExpressionNode *exp = Expression();
@@ -136,7 +144,9 @@ AssignmentStatementNode * ParserClass::AssignmentStatement() {
 }
 
 ExpressionNode * ParserClass::Expression()
+
 {
+	MSG("ExpressionNode Expression");
 	ExpressionNode * current = And();
 	TokenType tt = mScanner->PeekNextToken().GetTokenType();
 	if(	tt == OR_TOKEN)
@@ -168,6 +178,7 @@ ExpressionNode * ParserClass::Relational() {
 	ExpressionNode * current = PlusMinus();
 	while(true)
 	{
+		MSG("ExpressionNode Relational");
 		TokenType tt = mScanner->PeekNextToken().GetTokenType();
 		if(tt == LESS_TOKEN) {
 			Match(tt);
@@ -204,6 +215,7 @@ ExpressionNode * ParserClass::PlusMinus() {
 	ExpressionNode * current = TimesDivide();
 	while(true)
 	{
+		MSG("ExpressionNode PlusMinus");
 		TokenType tt = mScanner->PeekNextToken().GetTokenType();
 		if(tt == PLUS_TOKEN) {
 			Match(tt);
@@ -224,6 +236,7 @@ ExpressionNode * ParserClass::TimesDivide() {
 	ExpressionNode * current = Not();
 	while(true)
 	{
+		MSG("ExpressionNode TimesDivide ")
 		TokenType tt = mScanner->PeekNextToken().GetTokenType();
 		if(tt == TIMES_TOKEN) {
 			Match(tt);
@@ -251,6 +264,7 @@ ExpressionNode * ParserClass::Not() {
 }
 
 ExpressionNode * ParserClass::Factor() {
+	MSG("ExpressionNode Factor");
 	TokenType tt = mScanner->PeekNextToken().GetTokenType();
 	if(tt == IDENTIFIER_TOKEN) {
 		ExpressionNode * current = Identifier();
@@ -275,6 +289,7 @@ ExpressionNode * ParserClass::Factor() {
 
 
 IdentifierNode * ParserClass::Identifier() {
+	MSG("IdentifierNode identifier");
 	TokenClass t = Match(IDENTIFIER_TOKEN);
 	string name = t.GetLexeme();
 	IdentifierNode *id = new IdentifierNode(name, mSymbol);
@@ -282,12 +297,22 @@ IdentifierNode * ParserClass::Identifier() {
 }
 
 IntegerNode * ParserClass::Integer() {
+	MSG("IntegerNode Integer ");
 	TokenClass t = Match(INTEGER_TOKEN);
 	string value = t.GetLexeme();
 	IntegerNode *en = new IntegerNode(stoi(value));
 	return en;
 }
 
+
+
+
+
+
+
+
+
+/***INTERPRETER **** */
 /*
 void IfNode:Interpret() {
 	if(mExpressionTest.Evaluate()) {
@@ -305,3 +330,62 @@ Priorities:
 Or -> And -> PlusMinus -> TimesDivide -> Factor (Ident, Int, Expr)
 
 */
+
+/**STATEMNT GROUP
+	TokenType ptt = mScanner->PeekNextToken().GetTokenType();
+	StatementGroupNode *sg = new StatementGroupNode();
+	if(ptt == INT_TOKEN) {
+		DeclarationStatementNode *ds = DeclarationStatement();
+		sg = StatementGroup();
+		sg->AddStatement(ds);
+	}
+	else if(ptt == IDENTIFIER_TOKEN) {
+		AssignmentStatementNode *as = AssignmentStatement();
+		sg = StatementGroup();
+		sg->AddStatement(as);
+	}
+	else if(ptt == COUT_TOKEN) {
+		CoutStatementNode *cs = CoutStatement();
+		sg = StatementGroup();
+		sg->AddStatement(cs);
+	}
+	else if(ptt == LCURLY_TOKEN) {
+		BlockNode *bs = Block();
+		sg = StatementGroup();
+		sg->AddStatement(bs);
+	}
+	// else if(ptt == IF_TOKEN) {
+	// 	IfNode *ifn = If();
+	// 	sg = StatementGroup();
+	// 	sg->AddStatement(ifn);
+	// }
+	// else if(ptt == WHILE_TOKEN) {
+	// 	WhileNode *wh = While();
+	// 	sg = StatementGroup();
+	// 	sg->AddStatement(wh);
+	// }
+	else {}
+	return sg;
+
+ **/
+
+
+// IfNode * ParserClass::If() {
+// 	Match(IF_TOKEN);
+// 	Match(LPAREN_TOKEN);
+// 	ExpressionNode *exp = Expression();
+// 	Match(RPAREN_TOKEN);
+// 	BlockNode *bn = Block();
+// 	IfNode *ifn = new IfNode(exp, bn);
+// 	return ifn;
+// }
+
+// WhileNode * ParserClass::While() {
+// 	Match(WHILE_TOKEN);
+// 	Match(LPAREN_TOKEN);
+// 	ExpressionNode *exp = Expression();
+// 	Match(RPAREN_TOKEN);
+// 	BlockNode *bn = Block();
+// 	WhileNode *wh = new WhileNode(exp, bn);
+// 	return wh;
+// }

@@ -85,12 +85,17 @@ int main()
 {
 	/**/
 	const char *file="problem01.txt";
+	
 	ScannerClass scanner(file);
+	//std::cout << scanner.PeekNextToken() << std::endl;
 	SymbolTableClass mySTC; 
 
 	ParserClass pc(&scanner,&mySTC);
 	//cout<< pc->Start() <<endl;
-	pc.Start();
+	StartNode *sn = pc.Start();
+	
+	delete sn;
+
 	return 0;
 }
 

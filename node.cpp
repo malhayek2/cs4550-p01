@@ -31,7 +31,7 @@ BlockNode::BlockNode(StatementGroupNode *mStatementGroupNode){
 }
 BlockNode::~BlockNode(){
 	delete mStatementGroupNode;
-	std::cout << "BlockNode Deleting StatementGroupNode" << std::endl;	
+	std::cout << "BlockNode Deleting StatementGroupNode" << std::endl;	 
 }
 /**/
 StatementGroupNode::StatementGroupNode(){}
@@ -57,7 +57,8 @@ DeclarationStatementNode::DeclarationStatementNode(IdentifierNode *mIdentifierNo
 	this->mIdentifierNode = mIdentifierNode;
 }
 DeclarationStatementNode::~DeclarationStatementNode(){
-	// delete mIdentifierNode;
+	std::cout << "deleting IdentifierNode" << std::endl; 
+	delete mIdentifierNode;
 }
 /**/
 AssignmentStatementNode::AssignmentStatementNode(IdentifierNode *mIdentifierNode, ExpressionNode *mExpressionNode){
@@ -65,15 +66,17 @@ AssignmentStatementNode::AssignmentStatementNode(IdentifierNode *mIdentifierNode
 	this->mExpressionNode = mExpressionNode;
 }
 AssignmentStatementNode::~AssignmentStatementNode(){
-	// delete mExpressionNode;
-	// delete mIdentifierNode;
+	std::cout << "deleting ExpressionNode && IdentifierNode" << std::endl; 
+	delete mExpressionNode;
+	delete mIdentifierNode;
 }
 
 CoutStatementNode::CoutStatementNode(ExpressionNode *mExpressionNode){
 	this->mExpressionNode = mExpressionNode;
 }
 CoutStatementNode::~CoutStatementNode(){
-	// delete CoutStatementNode;
+	std::cout << "Deleting  ExpressionNode " << std::endl; 
+	delete mExpressionNode;
 }
 
 

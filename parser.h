@@ -13,6 +13,7 @@ private:
 	ProgramNode * Program();
 	BlockNode * Block();
 	StatementGroupNode * StatementGroup();
+	StatementNode * Statement();
 	// IfNode * If();
 	// WhileNode * While();
 	DeclarationStatementNode * DeclarationStatement();

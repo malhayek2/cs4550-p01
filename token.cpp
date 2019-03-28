@@ -16,7 +16,7 @@ void TokenClass::CheckReserved()
 	else if(mLexeme=="repeat"){mType=REPEAT_TOKEN;}
 	else if(mLexeme=="void"){mType=VOID_TOKEN;}
 	else if(mLexeme=="cout"){mType=COUT_TOKEN;}
-	else if(mLexeme=="int"){mType=INTEGER_TOKEN;}
+	else if(mLexeme=="int"){mType=INT_TOKEN;}
 	else if(mLexeme=="if"){mType=IF_TOKEN;}
 	else if(mLexeme=="else"){mType=ELSE_TOKEN;}
 	else if(mLexeme=="while"){mType=WHILE_TOKEN;}
@@ -30,6 +30,6 @@ void TokenClass::CheckReserved()
 }
 ostream &operator<<(ostream &out, const TokenClass &tc)
 {
-	out<< "TokenTypeName:" << tc.TokenClass::GetTokenTypeName()<<" lexeme:"<<tc.TokenClass::GetLexeme()<<"'";
+	out<< "TokenTypeName:" << tc.TokenClass::GetTokenTypeName()<< "char Name " <<  tc.TokenClass::GetTokenString() << "lexeme:"<<tc.TokenClass::GetLexeme()<<"'";
 	return out;
 }
