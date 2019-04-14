@@ -17,7 +17,11 @@ public:
 	void SetValue(const std::string &s, int v);
 	int GetIndex (const std::string &s);
 	int GetCount();
-	
+	/*Inter*/
+	void PushScope();
+	void PopScope();
+
+
 	/*a struct... */
 	struct Variable{
 	/*Data Type.*/

@@ -14,8 +14,10 @@ private:
 	BlockNode * Block();
 	StatementGroupNode * StatementGroup();
 	StatementNode * Statement();
-	// IfNode * If();
-	// WhileNode * While();
+
+	IfStatementNode * If();
+	WhileStatementNode * While();
+	
 	DeclarationStatementNode * DeclarationStatement();
 	AssignmentStatementNode * AssignmentStatement();
 	CoutStatementNode * CoutStatement();

@@ -4,7 +4,7 @@
 Node::~Node(){
 
 }
-
+void Node::Interpret(){}
 /**/
 StartNode::StartNode(ProgramNode *mProgramNode){
 	this->mProgramNode = mProgramNode;
@@ -15,7 +15,7 @@ StartNode::~StartNode(){
 	std::cout << "StartNode Deleting ProgramNode " << std::endl;
 
 }
-
+void StartNode::Interpret(){mProgramNode->Interpret();}
 
 /**/
 ProgramNode::ProgramNode(BlockNode *mBlockNode){
@@ -25,6 +25,7 @@ ProgramNode::~ProgramNode(){
 	delete mBlockNode;
 	std::cout << "ProgramNode Deleting BlockNode " << std::endl;
 }
+void ProgramNode::Interpret(){mBlockNode->Interpret();}
 /**/
 BlockNode::BlockNode(StatementGroupNode *mStatementGroupNode){
 	this->mStatementGroupNode = mStatementGroupNode;
@@ -32,6 +33,13 @@ BlockNode::BlockNode(StatementGroupNode *mStatementGroupNode){
 BlockNode::~BlockNode(){
 	delete mStatementGroupNode;
 	std::cout << "BlockNode Deleting StatementGroupNode" << std::endl;	 
+}
+
+void BlockNode::Interpret()
+{
+	// mSymbolTable->PushScope();
+	mStatementGroupNode->Interpret();
+	// mSymbolTable->PopScope();
 }
 /**/
 StatementGroupNode::StatementGroupNode(){}
@@ -44,6 +52,15 @@ StatementGroupNode::~StatementGroupNode(){
 }
 void StatementGroupNode::AddStatement(StatementNode *node){
 	mStatementNodeVector.push_back(node);
+}
+
+void StatementGroupNode::Interpret()
+{
+	for(unsigned int i=0;i<mStatementNodeVector.size();i++)
+	{
+		StatementNode *sm=mStatementNodeVector.at(i);
+		sm->Interpret();
+	}
 }
 /**/
 StatementNode::StatementNode(){
@@ -60,6 +77,8 @@ DeclarationStatementNode::~DeclarationStatementNode(){
 	std::cout << "deleting IdentifierNode" << std::endl; 
 	delete mIdentifierNode;
 }
+
+void DeclarationStatementNode::Interpret(){mIdentifierNode->DeclareVariable();};
 /**/
 AssignmentStatementNode::AssignmentStatementNode(IdentifierNode *mIdentifierNode, ExpressionNode *mExpressionNode){
 	this->mIdentifierNode = mIdentifierNode;
@@ -70,7 +89,13 @@ AssignmentStatementNode::~AssignmentStatementNode(){
 	delete mExpressionNode;
 	delete mIdentifierNode;
 }
-
+void AssignmentStatementNode::Interpret()
+{
+	int id = mExpressionNode->Evaluate();
+	mIdentifierNode->SetValue(id);
+}
+/**/
+CoutStatementNode::CoutStatementNode(){}
 CoutStatementNode::CoutStatementNode(ExpressionNode *mExpressionNode){
 	this->mExpressionNode = mExpressionNode;
 }
@@ -78,8 +103,16 @@ CoutStatementNode::~CoutStatementNode(){
 	std::cout << "Deleting  ExpressionNode " << std::endl; 
 	delete mExpressionNode;
 }
-
-
+void CoutStatementNode::Interpret()
+{
+	for(unsigned int i=0;i<mExpressionNodeVec.size();i++)
+	{
+		if(!(mExpressionNodeVec.at(i)==NULL)) {std::cout<<mExpressionNodeVec.at(i)->Evaluate();}
+		else {std::cout<<""<<std::endl;}
+	}
+	std::cout << mExpressionNode->Evaluate() << std::endl;
+}
+void CoutStatementNode::addExpression(ExpressionNode *e){mExpressionNodeVec.push_back(e);}
 /*ExpressionNode !! */
 ExpressionNode::ExpressionNode(){
 
@@ -324,5 +357,128 @@ int NotNode::Evaluate() {
 	MSG("Not node evaluated as " << res);
 }
 
-// 
+/*if & while repeat*/
+
+
+IfStatementNode::IfStatementNode(ExpressionNode *enode, StatementNode *snode)
+{
+	this->mExpressionNode=enode;
+	this->mStatementNode=snode;
+	this->isElse=false;
+}
+IfStatementNode::~IfStatementNode()
+{
+	delete mExpressionNode;
+	delete mStatementNode;
+	MSG("IfStatementNode Deleted");
+}
+void IfStatementNode::Interpret() 
+{ 
+	if(this->mExpressionNode->Evaluate()!=0) 
+	{ 
+		this->mStatementNode->Interpret(); 
+	}
+	else if(this->mExpressionNode->Evaluate()==0) 
+	{
+		if(isElse)
+		{
+			this->mStatementNodeElse->Interpret();
+		}
+	}
+}
+// void IfStatementNode::Code(InstructionsClass &machinecode)
+// {
+// 	NCMSG("Coded IfStatmentNode");
+// 	mExpressionNode->Code(machinecode);
+// 	unsigned char *InsertAddress=machinecode.SkipIfZeroStack();
+// 	unsigned char *FromAddress=machinecode.GetAddress();
+	
+// 	if(!this->isElse){this->mStatementNode->Code(machinecode);}
+// 	else if(this->isElse)
+// 	{
+// 		if(this->mExpressionNode->Evaluate()!=0) 
+// 		{
+// 			this->mStatementNode->Code(machinecode);
+// 		}
+// 		else
+// 		{
+// 			this->mStatementNodeElse->Code(machinecode);
+// 		}
+// 	}
+
+// 	unsigned char *ToAddress=machinecode.GetAddress();
+// 	machinecode.SetOffset(InsertAddress,ToAddress-FromAddress);
+// }
+void IfStatementNode::SetElse(){this->isElse=true;}
+bool IfStatementNode::GetElse(){return this->isElse;}
+void IfStatementNode::SetElseNode(StatementNode *snode){this->mStatementNodeElse=snode;}
+
+WhileStatementNode::WhileStatementNode(ExpressionNode *enode, StatementNode *snode)
+{
+	this->mExpressionNode=enode;
+	this->mStatementNode=snode;
+}
+WhileStatementNode::~WhileStatementNode()
+{
+	delete mExpressionNode;
+	delete mStatementNode;
+	MSG("WhileStatementNode Deleted");
+}
+void WhileStatementNode::Interpret()
+{
+	while(this->mExpressionNode->Evaluate()!=0)
+	{
+		this->mStatementNode->Interpret();
+	}
+}
+// void WhileStatementNode::Code(InstructionsClass &machinecode)
+// {
+// 	NCMSG("Coded WhileStatmentNode");
+// 	unsigned char *Address0=machinecode.GetAddress();
+// 	mExpressionNode->Code(machinecode);
+// 	unsigned char *Offset1=machinecode.SkipIfZeroStack();
+// 	unsigned char *Address1=machinecode.GetAddress();
+// 	mStatementNode->Code(machinecode);
+// 	unsigned char *Offset2=machinecode.Jump();
+// 	unsigned char *Address2=machinecode.GetAddress();
+	
+// 	machinecode.SetOffset(Offset2,(Address0-Address2));//return to begining
+// 	machinecode.SetOffset(Offset1,(Address2-Address1));//while loop has ended
+// }
+
+
+
+RepeatStatementNode::RepeatStatementNode(int count, ExpressionNode *enode, StatementNode *snode)
+{
+	this->mCount=count;
+	this->mExpressionNode=enode;
+	this->mStatementNode=snode;
+}
+RepeatStatementNode::~RepeatStatementNode()
+{
+	delete mExpressionNode;
+	delete mStatementNode;
+	MSG("RepeatStatementNode Deleted");
+}
+void RepeatStatementNode::Interpret()
+{
+	for(int i=0;i<this->mCount;i++)
+	{
+		this->mStatementNode->Interpret();
+	}
+}
+// void RepeatStatementNode::Code(InstructionsClass &machinecode)
+// {
+// 	NCMSG("Coded RepeatStatementNode");
+// 	unsigned char *Address0=machinecode.GetAddress();
+// 	mExpressionNode->Code(machinecode);
+// 	unsigned char *Offset1=machinecode.SkipIfZeroStack();
+// 	unsigned char *Address1=machinecode.GetAddress();
+// 	mStatementNode->Code(machinecode);
+// 	unsigned char *Offset2=machinecode.Jump();
+// 	unsigned char *Address2=machinecode.GetAddress();
+	
+// 	machinecode.SetOffset(Offset2,(Address0-Address2));//return to begining
+// 	machinecode.SetOffset(Offset1,(Address2-Address1));//while loop has ended
+// }
 

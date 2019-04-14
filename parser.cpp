@@ -105,6 +105,12 @@ return value should be “true” (eventually a node pointer). If*/
             return AssignmentStatement();
         case COUT_TOKEN:
             return CoutStatement();
+        case WHILE_TOKEN:
+        	return While();
+    	case IF_TOKEN:
+    		return If();
+		case LCURLY_TOKEN:
+			return Block();
         default:
             return NULL;
     }
@@ -123,13 +129,43 @@ DeclarationStatementNode * ParserClass::DeclarationStatement() {
 
 CoutStatementNode * ParserClass::CoutStatement() {
 	MSG("CoutStatement Node");
+	// Match(COUT_TOKEN);
+	// Match(INSERTION_TOKEN);
+	// ExpressionNode *exp = Expression();
+	// Match(SEMICOLON_TOKEN);
+
+	// CoutStatementNode *cs = new CoutStatementNode(exp);
+	// return cs;
+	CoutStatementNode *c=new CoutStatementNode();
 	Match(COUT_TOKEN);
 	Match(INSERTION_TOKEN);
-	ExpressionNode *exp = Expression();
-	Match(SEMICOLON_TOKEN);
+	if(mScanner->PeekNextToken().GetTokenType()==ENDL_TOKEN)
+	{
+		Match(ENDL_TOKEN);
+		c->addExpression(NULL);
+	}
+	else
+	{
+		ExpressionNode *e=Expression();
+		c->addExpression(e);
+	}
+	while(mScanner->PeekNextToken().GetTokenType()!=SEMICOLON_TOKEN)
+	{	
+		Match(INSERTION_TOKEN);
 
-	CoutStatementNode *cs = new CoutStatementNode(exp);
-	return cs;
+		if(mScanner->PeekNextToken().GetTokenType()==ENDL_TOKEN)
+		{
+			Match(ENDL_TOKEN);
+			c->addExpression(NULL);
+		}
+		else
+		{
+			ExpressionNode *e=Expression();
+			c->addExpression(e);
+		}
+	}
+	Match(SEMICOLON_TOKEN);
+	return c;
 }
 
 AssignmentStatementNode * ParserClass::AssignmentStatement() {
@@ -200,10 +236,10 @@ ExpressionNode * ParserClass::Relational() {
 			Match(tt);
 			current = new EqualNode(current, PlusMinus());
 		}
-		/*else if(tt == NOTEQUAL_TOKEN) {
+		else if(tt == NOTEQUAL_TOKEN) {
 			Match(tt);
 			current = new NotEqualNode(current, PlusMinus());
-		}*/
+		}
 		else {
 			return current;
 		}
@@ -313,79 +349,55 @@ IntegerNode * ParserClass::Integer() {
 
 
 /***INTERPRETER **** */
-/*
-void IfNode:Interpret() {
-	if(mExpressionTest.Evaluate()) {
-		mStatementNode->Interpret()
+
+// void IfNode:Interpret() {
+// 	if(mExpressionTest.Evaluate()) {
+// 		mStatementNode->Interpret()
+// 	}
+// }
+
+// Priorities:
+// * /
+// + - 
+// <= < > >= != ==
+// &&
+// ||
+
+// Or -> And -> PlusMinus -> TimesDivide -> Factor (Ident, Int, Expr)
+
+
+
+
+
+IfStatementNode * ParserClass::If() {
+	Match(IF_TOKEN);
+	Match(LPAREN_TOKEN);
+	TokenClass T=mScanner->PeekNextToken();
+	ExpressionNode *e=Expression();
+	Match(RPAREN_TOKEN);
+	// BlockNode *bn = Block();
+	StatementNode *s=Statement();
+	
+	IfStatementNode *isn=new IfStatementNode(e,s);
+
+	T=mScanner->PeekNextToken();
+	if(T.GetTokenType()==ELSE_TOKEN)
+	{
+		isn->SetElse();
+		Match(ELSE_TOKEN);
+		StatementNode *n=Statement();
+		
+		isn->SetElseNode(n);
 	}
+	return isn;
 }
 
-Priorities:
-* /
-+ - 
-<= < > >= != ==
-&&
-||
-
-Or -> And -> PlusMinus -> TimesDivide -> Factor (Ident, Int, Expr)
-
-*/
-
-/**STATEMNT GROUP
-	TokenType ptt = mScanner->PeekNextToken().GetTokenType();
-	StatementGroupNode *sg = new StatementGroupNode();
-	if(ptt == INT_TOKEN) {
-		DeclarationStatementNode *ds = DeclarationStatement();
-		sg = StatementGroup();
-		sg->AddStatement(ds);
-	}
-	else if(ptt == IDENTIFIER_TOKEN) {
-		AssignmentStatementNode *as = AssignmentStatement();
-		sg = StatementGroup();
-		sg->AddStatement(as);
-	}
-	else if(ptt == COUT_TOKEN) {
-		CoutStatementNode *cs = CoutStatement();
-		sg = StatementGroup();
-		sg->AddStatement(cs);
-	}
-	else if(ptt == LCURLY_TOKEN) {
-		BlockNode *bs = Block();
-		sg = StatementGroup();
-		sg->AddStatement(bs);
-	}
-	// else if(ptt == IF_TOKEN) {
-	// 	IfNode *ifn = If();
-	// 	sg = StatementGroup();
-	// 	sg->AddStatement(ifn);
-	// }
-	// else if(ptt == WHILE_TOKEN) {
-	// 	WhileNode *wh = While();
-	// 	sg = StatementGroup();
-	// 	sg->AddStatement(wh);
-	// }
-	else {}
-	return sg;
-
- **/
-
-
-// IfNode * ParserClass::If() {
-// 	Match(IF_TOKEN);
-// 	Match(LPAREN_TOKEN);
-// 	ExpressionNode *exp = Expression();
-// 	Match(RPAREN_TOKEN);
-// 	BlockNode *bn = Block();
-// 	IfNode *ifn = new IfNode(exp, bn);
-// 	return ifn;
-// }
-
-// WhileNode * ParserClass::While() {
-// 	Match(WHILE_TOKEN);
-// 	Match(LPAREN_TOKEN);
-// 	ExpressionNode *exp = Expression();
-// 	Match(RPAREN_TOKEN);
-// 	BlockNode *bn = Block();
-// 	WhileNode *wh = new WhileNode(exp, bn);
-// 	return wh;
-// }
+WhileStatementNode * ParserClass::While() {
+	Match(WHILE_TOKEN);
+	Match(LPAREN_TOKEN);
+	ExpressionNode *exp = Expression();
+	Match(RPAREN_TOKEN);
+	BlockNode *bn = Block();
+	WhileStatementNode *wh = new WhileStatementNode(exp, bn);
+	return wh;
+}

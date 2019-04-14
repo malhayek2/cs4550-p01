@@ -84,3 +84,17 @@ int SymbolTableClass::GetCount(){
 	return this->myVector.size();
 
 }
+
+void SymbolTableClass::PushScope()
+{
+	// mScopevec.push_back(myVector.size());
+}
+void SymbolTableClass::PopScope()
+{
+	// unsigned int varCount = myVector.back();
+	// while (myVector.size() > varCount)
+	// {
+	// 	myVector.pop_back();
+	// }
+	// myVector.pop_back();
+}

@@ -84,7 +84,7 @@ int main()
 
 {
 	/**/
-	const char *file="problem01.txt";
+	const char *file="test4.txt";
 	
 	ScannerClass scanner(file);
 	//std::cout << scanner.PeekNextToken() << std::endl;
@@ -93,7 +93,7 @@ int main()
 	ParserClass pc(&scanner,&mySTC);
 	//cout<< pc->Start() <<endl;
 	StartNode *sn = pc.Start();
-	
+	sn->Interpret();
 	delete sn;
 
 	return 0;

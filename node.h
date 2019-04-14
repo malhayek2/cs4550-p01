@@ -21,11 +21,17 @@ class OrNode;
 class AndNode;
 class NotNode;
 
+class IfStatementNode;
+class WhileStatementNode;
+
+
+
+
 
 class Node{
 public:
 	virtual ~Node();
-
+	virtual void Interpret();
 private:
 };
 /**/
@@ -40,6 +46,7 @@ class StatementGroupNode : public Node{
 public:
 	virtual ~StatementGroupNode();
 	StatementGroupNode();
+	virtual void Interpret();
 	void AddStatement(StatementNode *node);
 private:
 std::vector <StatementNode *> mStatementNodeVector;
@@ -48,14 +55,17 @@ std::vector <StatementNode *> mStatementNodeVector;
 class BlockNode: public StatementNode{
 public:
 	virtual ~BlockNode();
+	virtual void Interpret();
 	BlockNode(StatementGroupNode *mStatementGroupNode);
 private:
 	StatementGroupNode *mStatementGroupNode;
+	SymbolTableClass *mSymbolTable;
 };
 /**/
 class ProgramNode : public Node{
 public:
 	virtual ~ProgramNode();
+	virtual void Interpret();
 	ProgramNode(BlockNode *mBlockNode);
 private:
 	BlockNode  *mBlockNode;
@@ -65,6 +75,7 @@ private:
 class StartNode : public Node{
 public:
 	StartNode(ProgramNode *mProgramNode);
+	virtual void Interpret();
 	virtual ~StartNode();
 	
 private:
@@ -88,6 +99,7 @@ public:
 	void DeclareVariable();
 	/*which sets the value into the symbol table by calling something like mSymbolTable→SetValue(mLabel, v).*/
 	void SetValue(int v);
+	// virtual int Evaluate();
 	/*which returns the integer position of where this variable is being stored in the symbol table.*/
 	int GetIndex();
 
@@ -102,6 +114,7 @@ class DeclarationStatementNode: public StatementNode{
 public:
 	virtual ~DeclarationStatementNode();
 	DeclarationStatementNode(IdentifierNode *mIdentifierNode);
+	virtual void Interpret();
 
 private:
 	IdentifierNode *mIdentifierNode;
@@ -112,6 +125,7 @@ class AssignmentStatementNode : public StatementNode{
 public:
 	virtual ~AssignmentStatementNode();
 	AssignmentStatementNode(IdentifierNode *mIdentifierNode, ExpressionNode *mExpressionNode);
+	virtual void Interpret();
 private:
 	ExpressionNode *mExpressionNode;
 	IdentifierNode *mIdentifierNode;
@@ -121,9 +135,13 @@ private:
 class CoutStatementNode : public StatementNode{
 public: 
 	virtual ~CoutStatementNode();
+	CoutStatementNode();
 	CoutStatementNode(ExpressionNode *mExpressionNode);
+	virtual void Interpret();
+	void addExpression(ExpressionNode *);
 private:
 	ExpressionNode *mExpressionNode;
+	std::vector<ExpressionNode *> mExpressionNodeVec;
 };
 /*NOT DIREVED from Node*/
 
@@ -132,6 +150,7 @@ class IntegerNode : public ExpressionNode{
 public:
 	//virtual ~IntegerNode();
 	IntegerNode(int mInt);
+
 	virtual int Evaluate();
 private:
 	int mInt;
@@ -271,5 +290,44 @@ private:
 	ExpressionNode * mExpressionNode;
 };
 
+/*added if and while Statements */
 
+class IfStatementNode: public StatementNode{
+public:
+	IfStatementNode(ExpressionNode *enode, StatementNode *snode);
+	virtual ~IfStatementNode();
+	virtual void Interpret();
+	// virtual void Code(InstructionsClass &machinecode);
+	void SetElse();
+	bool GetElse();
+	void SetElseNode(StatementNode *snode);
+
+private:
+	ExpressionNode *mExpressionNode;
+	StatementNode *mStatementNode;
+	StatementNode *mStatementNodeElse;
+	bool isElse;
+};
+class WhileStatementNode: public StatementNode{
+public:
+	WhileStatementNode(ExpressionNode *enode, StatementNode *snode);
+	virtual ~WhileStatementNode();
+	virtual void Interpret();
+	// virtual void Code(InstructionsClass &machinecode);
+private:
+	ExpressionNode *mExpressionNode;
+	StatementNode *mStatementNode;
+};
+
+class RepeatStatementNode: public StatementNode{
+public:
+	RepeatStatementNode(int count, ExpressionNode *enode, StatementNode *snode);
+	virtual ~RepeatStatementNode();
+	virtual void Interpret();
+	// virtual void Code(InstructionsClass &machinecode);
+private:
+	int mCount;
+	ExpressionNode *mExpressionNode;
+	StatementNode *mStatementNode;
+};
 #endif // NODE
