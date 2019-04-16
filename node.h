@@ -23,6 +23,7 @@ class NotNode;
 
 class IfStatementNode;
 class WhileStatementNode;
+class RepeatStatementNode;
 
 
 
@@ -321,12 +322,11 @@ private:
 
 class RepeatStatementNode: public StatementNode{
 public:
-	RepeatStatementNode(int count, ExpressionNode *enode, StatementNode *snode);
+	RepeatStatementNode(ExpressionNode *enode, StatementNode *snode);
 	virtual ~RepeatStatementNode();
 	virtual void Interpret();
-	// virtual void Code(InstructionsClass &machinecode);
 private:
-	int mCount;
+	
 	ExpressionNode *mExpressionNode;
 	StatementNode *mStatementNode;
 };

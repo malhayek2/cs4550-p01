@@ -13,6 +13,7 @@ void TokenClass::CheckReserved()
 {
 
 	if(mLexeme=="main"){mType=MAIN_TOKEN;}
+	/*added repeat token!!*/
 	else if(mLexeme=="repeat"){mType=REPEAT_TOKEN;}
 	else if(mLexeme=="void"){mType=VOID_TOKEN;}
 	else if(mLexeme=="cout"){mType=COUT_TOKEN;}

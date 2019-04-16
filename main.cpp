@@ -84,7 +84,7 @@ int main()
 
 {
 	/**/
-	const char *file="test4.txt";
+	const char *file="midterm.txt";
 	
 	ScannerClass scanner(file);
 	//std::cout << scanner.PeekNextToken() << std::endl;

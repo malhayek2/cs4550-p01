@@ -1,0 +1,11 @@
+// This code snippet prints 100 the full ten times.
+void main()
+{
+	int count;
+	count = 10;
+	repeat (count)
+	{
+	cout << 100;
+	count = count - 2;
+	}
+}

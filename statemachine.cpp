@@ -86,6 +86,7 @@ StateMachineClass::StateMachineClass()
 	mCorrespondingTokenTypes[BOOL_STATE] = BOOL_TOKEN;
 	mCorrespondingTokenTypes[TRUE_STATE] = TRUE_TOKEN;
 	mCorrespondingTokenTypes[FALSE_STATE] = FALSE_TOKEN;
+	/*added repeat token!*/
 	mCorrespondingTokenTypes[REPEAT_STATE] = REPEAT_TOKEN;
 	/*Relational Operators:*/
 	mCorrespondingTokenTypes[LESS_STATE] = LESS_TOKEN;

@@ -58,8 +58,9 @@ void StatementGroupNode::Interpret()
 {
 	for(unsigned int i=0;i<mStatementNodeVector.size();i++)
 	{
-		StatementNode *sm=mStatementNodeVector.at(i);
-		sm->Interpret();
+		mStatementNodeVector[i]->Interpret();
+		//StatementNode *sm=mStatementNodeVector.at(i);
+		//->Interpret();
 	}
 }
 /**/
@@ -107,12 +108,17 @@ void CoutStatementNode::Interpret()
 {
 	for(unsigned int i=0;i<mExpressionNodeVec.size();i++)
 	{
-		if(!(mExpressionNodeVec.at(i)==NULL)) {std::cout<<mExpressionNodeVec.at(i)->Evaluate();}
+		if(!(mExpressionNodeVec.at(i)==NULL)) {
+			std::cout<<mExpressionNodeVec.at(i)->Evaluate();
+		}
 		else {std::cout<<""<<std::endl;}
 	}
-	std::cout << mExpressionNode->Evaluate() << std::endl;
+	// std::cout << mExpressionNode->Evaluate() << std::endl;
+
 }
-void CoutStatementNode::addExpression(ExpressionNode *e){mExpressionNodeVec.push_back(e);}
+void CoutStatementNode::addExpression(ExpressionNode *e){
+	mExpressionNodeVec.push_back(e);
+}
 /*ExpressionNode !! */
 ExpressionNode::ExpressionNode(){
 
@@ -431,28 +437,19 @@ void WhileStatementNode::Interpret()
 		this->mStatementNode->Interpret();
 	}
 }
-// void WhileStatementNode::Code(InstructionsClass &machinecode)
-// {
-// 	NCMSG("Coded WhileStatmentNode");
-// 	unsigned char *Address0=machinecode.GetAddress();
-// 	mExpressionNode->Code(machinecode);
-// 	unsigned char *Offset1=machinecode.SkipIfZeroStack();
-// 	unsigned char *Address1=machinecode.GetAddress();
-// 	mStatementNode->Code(machinecode);
-// 	unsigned char *Offset2=machinecode.Jump();
-// 	unsigned char *Address2=machinecode.GetAddress();
-	
-// 	machinecode.SetOffset(Offset2,(Address0-Address2));//return to begining
-// 	machinecode.SetOffset(Offset1,(Address2-Address1));//while loop has ended
-// }
 
 
 
-RepeatStatementNode::RepeatStatementNode(int count, ExpressionNode *enode, StatementNode *snode)
+
+
+/****REPEAT STATMENT!****/
+
+RepeatStatementNode::RepeatStatementNode(ExpressionNode *enode, StatementNode *snode)
 {
-	this->mCount=count;
+	
 	this->mExpressionNode=enode;
 	this->mStatementNode=snode;
+	MSG("initialized RepeatStatementNode");
 }
 RepeatStatementNode::~RepeatStatementNode()
 {
@@ -462,23 +459,15 @@ RepeatStatementNode::~RepeatStatementNode()
 }
 void RepeatStatementNode::Interpret()
 {
-	for(int i=0;i<this->mCount;i++)
-	{
+	/*expression evaluted return an integer should be stored*/
+	int expression = this->mExpressionNode->Evaluate();
+	MSG("expression is" << expression);
+	for (int i = 0; i < expression; i++) {
+		MSG("Doing forloop : " << i);
 		this->mStatementNode->Interpret();
+
 	}
+	MSG("Finihsed forloop");
 }
-// void RepeatStatementNode::Code(InstructionsClass &machinecode)
-// {
-// 	NCMSG("Coded RepeatStatementNode");
-// 	unsigned char *Address0=machinecode.GetAddress();
-// 	mExpressionNode->Code(machinecode);
-// 	unsigned char *Offset1=machinecode.SkipIfZeroStack();
-// 	unsigned char *Address1=machinecode.GetAddress();
-// 	mStatementNode->Code(machinecode);
-// 	unsigned char *Offset2=machinecode.Jump();
-// 	unsigned char *Address2=machinecode.GetAddress();
-	
-// 	machinecode.SetOffset(Offset2,(Address0-Address2));//return to begining
-// 	machinecode.SetOffset(Offset1,(Address2-Address1));//while loop has ended
-// }
+
 

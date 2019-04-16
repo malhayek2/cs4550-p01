@@ -17,6 +17,7 @@ private:
 
 	IfStatementNode * If();
 	WhileStatementNode * While();
+	RepeatStatementNode * Repeat();
 	
 	DeclarationStatementNode * DeclarationStatement();
 	AssignmentStatementNode * AssignmentStatement();

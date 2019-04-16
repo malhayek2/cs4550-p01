@@ -111,6 +111,9 @@ return value should be “true” (eventually a node pointer). If*/
     		return If();
 		case LCURLY_TOKEN:
 			return Block();
+		/*in case of a Repeat token*/
+		case REPEAT_TOKEN:
+			return Repeat();
         default:
             return NULL;
     }
@@ -400,4 +403,15 @@ WhileStatementNode * ParserClass::While() {
 	BlockNode *bn = Block();
 	WhileStatementNode *wh = new WhileStatementNode(exp, bn);
 	return wh;
+}
+/*Repeat Node*/
+RepeatStatementNode * ParserClass::Repeat(){
+	Match(REPEAT_TOKEN);
+	Match(LPAREN_TOKEN);
+	ExpressionNode *exp = Expression();
+	Match(RPAREN_TOKEN);
+	StatementNode *sn = Statement();
+	RepeatStatementNode *repeat = new RepeatStatementNode(exp, sn);
+	return repeat;
+
 }
