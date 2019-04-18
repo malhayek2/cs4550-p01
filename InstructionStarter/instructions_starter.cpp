@@ -84,9 +84,19 @@ void InstructionsClass::Encode(int x)
 
 }
 /*encoding machine instructions and integers into mCode*/
+/*same idea as encode for int byte of 4, long is of 8*/
 void InstructionsClass::Encode(long long x)
 {
-
+	if(mCurrent<(MAX_INSTRUCTIONS-8)) 
+	{
+		*((long long*)(&( mCode [mCurrent]))) = x;
+		mCurrent += 8;
+	}
+	else
+	{
+		cerr<<"Error. Used up all "<<MAX_INSTRUCTIONS<<" instructions."<<endl;
+		exit(1);
+	}
 
 }
 
@@ -256,10 +266,26 @@ void InstructionsClass::PopPopAddPush()
 
 void InstructionsClass::PopPopSubPush()
 {
+
+	//cout<<"PopPopSubPush "<<endl;
+	Encode(POP_EBX);
+	Encode(POP_EAX);
+
+	Encode(SUB_EAX_EBX1);
+	Encode(SUB_EAX_EBX2);
+
+	Encode(PUSH_EAX);
 }
 
 void InstructionsClass::PopPopMulPush()
 {
+
+	Encode(POP_EBX);
+	Encode(POP_EAX);
+	Encode(CDQ); // Necessary to clear the D register for a 64 bit divide.
+	Encode(MUL_EAX_EBX1);
+	Encode(MUL_EAX_EBX2);
+	Encode(PUSH_EAX);
 }
 
 void InstructionsClass::PopPopDivPush()
@@ -299,18 +325,22 @@ void InstructionsClass::PopPopLessEqualPush()
 
 void InstructionsClass::PopPopGreaterPush()
 {
+	PopPopComparePush(JG);
 }
 
 void InstructionsClass::PopPopGreaterEqualPush()
 {
+	PopPopComparePush(JGE);
 }
 
 void InstructionsClass::PopPopEqualPush()
 {
+	PopPopComparePush(JE);
 }
 
 void InstructionsClass::PopPopNotEqualPush()
 {
+	PopPopComparePush(JNE);
 }
 
 void InstructionsClass::PopPopAndPush()
