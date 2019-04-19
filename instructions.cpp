@@ -150,12 +150,12 @@ void InstructionsClass::Execute()
 {	
 	/*Code protection must be OFF*/
 	/*for debugging perposes you may PrintAllMachineCodes();*/
-	MSG("About to Execute the machine code..." );
+	cout << "About to Execute the machine code...\n";
 	void * ptr = InstructionsClass::mCode;
 	void (*f)(void);
 	f = (void (*)(void)) ptr ;
 	f();
-	MSG("There and back again!");
+	cout << "\nThere and back again!\n\n";
 	
 }
 
@@ -197,8 +197,8 @@ int gPrintInteger=0; // BSFIX I might need to make this a static class member fo
 // This is called by the generated machine language code.
 void HelperPrintInteger(void)
 {
-	// printf("%i ", gPrintInteger);
-	std::cout << gPrintInteger << std::endl;
+	printf("%i ", gPrintInteger);
+	//std::cout << gPrintInteger;
 }
 
 /*creates machine code that pops a value back off the stack, and prints it to the monitor.*/

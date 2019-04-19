@@ -9,6 +9,7 @@
 #include <string>
 #include "node.h"
 #include "parser.h"
+#include "instructions.h"
 /*Testing*/
 
 std::string printTrueORFalse(bool given){
@@ -95,7 +96,7 @@ void interpetTest(){
 	sn->Interpret();
 	delete sn;
 
-	return 0;
+	// return 0;
 
 
 }
@@ -146,14 +147,23 @@ void testSymbolTable(){
 int main()
 
 {
-	unsigned char mCode[] = {0x55, 0x8B, 0xEC, 0X5d, 0XC3};
-	cout  << "About to Execute the machine code...\n";
-	void * ptr = mCode;
-	void (*f)(void);
-	f = (void (*)(void)) ptr ;
-	f(); // call the array as if it were a function
-	cout << "There and back again!\n" <<;;
-	return 0;
+	const char *file="test2.txt";
+	
+	ScannerClass scanner(file);
+	//std::cout << scanner.PeekNextToken() << std::endl;
+	SymbolTableClass mySTC; 
+
+	ParserClass pc(&scanner,&mySTC);
+	//cout<< pc->Start() <<endl;
+	InstructionsClass ic;
+	
+	
+	StartNode *sn = pc.Start();
+	sn->Interpret();
+	sn->Code(ic);
+	ic.Finish();
+	ic.Execute();
+	delete sn;
 
 }
 

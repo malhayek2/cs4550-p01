@@ -139,6 +139,7 @@ CoutStatementNode * ParserClass::CoutStatement() {
 
 	// CoutStatementNode *cs = new CoutStatementNode(exp);
 	// return cs;
+	
 	CoutStatementNode *c=new CoutStatementNode();
 	Match(COUT_TOKEN);
 	Match(INSERTION_TOKEN);
@@ -147,11 +148,12 @@ CoutStatementNode * ParserClass::CoutStatement() {
 		Match(ENDL_TOKEN);
 		c->addExpression(NULL);
 	}
-	else
-	{
+	// else
+	// {
 		ExpressionNode *e=Expression();
 		c->addExpression(e);
-	}
+	// }
+	/*While reading more << */
 	while(mScanner->PeekNextToken().GetTokenType()!=SEMICOLON_TOKEN)
 	{	
 		Match(INSERTION_TOKEN);
@@ -163,11 +165,16 @@ CoutStatementNode * ParserClass::CoutStatement() {
 		}
 		else
 		{
-			ExpressionNode *e=Expression();
-			c->addExpression(e);
+			//std::cout << "ParserClass cout " << std::endl;
+			ExpressionNode *e2=Expression();
+			e->incExpression(e2);
+			// ExpressionNode *newEN = &combined;
+			c->addExpression(e2);
 		}
 	}
 	Match(SEMICOLON_TOKEN);
+	//c->Interpret();
+	// std::cout << "parser cout done " << std::endl;
 	return c;
 }
 

@@ -60,11 +60,9 @@ public:
 	void SetOffset(unsigned char * codeAddress, int offset); // After a jump offset becomes known, this method can be used to go back and set it.
 
 private:
-	/*mCode will collect machine codes*/
+
 	static unsigned char mCode[MAX_INSTRUCTIONS]; // NOTE: Using an stl vector does not work, because they relocate their array sometimes.
-	/*index pointer that goes into mCode*/
 	int mCurrent;
-	/*mData will collect variables*/
 	int mData[MAX_DATA]; 
 };
 
