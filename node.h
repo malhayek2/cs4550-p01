@@ -348,4 +348,72 @@ private:
 	ExpressionNode *mExpressionNode;
 	StatementNode *mStatementNode;
 };
+
+/*additional Operator Nodes support*/
+
+
+class MinusEqualNode : public AssignmentStatementNode {
+public:
+	MinusEqualNode(IdentifierNode* left, ExpressionNode * right);
+	void Interpret();
+	void Code(InstructionsClass &instr);
+private:
+	ExpressionNode * mExpressionNode;
+	IdentifierNode * mIdentifierNode;
+};
+
+
+class PlusEqualNode : public AssignmentStatementNode {
+public:
+	PlusEqualNode(IdentifierNode* left, ExpressionNode * right);
+	void Interpret();
+	void Code(InstructionsClass &instr);
+private:
+	ExpressionNode * mExpressionNode;
+	IdentifierNode * mIdentifierNode;
+};
+/**/
+class TimesEqualNode : public AssignmentStatementNode {
+public:
+	TimesEqualNode(IdentifierNode* left, ExpressionNode * right);
+	void Interpret();
+	void Code(InstructionsClass &instr);
+private:
+	ExpressionNode * mExpressionNode;
+	IdentifierNode * mIdentifierNode;
+};
+/**/
+class DivideEqualNode : public AssignmentStatementNode {
+public:
+	DivideEqualNode(IdentifierNode* left, ExpressionNode * right);
+	void Interpret();
+	void Code(InstructionsClass &instr);
+private:
+	ExpressionNode * mExpressionNode;
+	IdentifierNode * mIdentifierNode;
+};
+
+
+class ModulusNode : public BinaryOperatorNode {
+public:
+	ModulusNode(ExpressionNode * left, ExpressionNode * right);
+	int Evaluate();
+	void CodeEvaluate(InstructionsClass &instr);
+private:
+};
+/*Do While */
+
+
+class DoWhileNode : public StatementNode {
+public:
+	DoWhileNode(ExpressionNode * e, StatementNode * s);
+	virtual ~DoWhileNode();
+	void Interpret();
+	void Code(InstructionsClass &instr);
+private:
+	ExpressionNode * mExpressionNode;
+	StatementNode * mStatementNode;
+};
+
+
 #endif // NODE

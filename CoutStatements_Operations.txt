@@ -1,0 +1,35 @@
+void main()
+{
+	
+	int u;
+	u=10;
+	u*=12;
+	cout<<u << endl;
+	
+	
+	int t;
+	t=4-3;
+	cout<<t << endl;
+	cout << 1 << 2 << 3 << endl;
+	cout << t << u << endl;
+	
+	int a;
+	a = 10;
+	a += 1;
+	int b;
+	b = 10;
+	b -= 1;
+	int c;
+	c = 10;
+	//c / = 2 ;
+	cout << a << b << c << endl;
+	int num ;
+	num = 12;
+	// num % 2 computes the remainder when num is divided by 2
+    if ( num % 2 == 0 )
+    {
+        cout << num << endl;
+    }
+
+
+}

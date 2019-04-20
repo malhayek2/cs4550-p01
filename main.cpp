@@ -147,7 +147,7 @@ void testSymbolTable(){
 int main()
 
 {
-	const char *file="test2.txt";
+	const char *file="CoutStatements_Operations.txt";
 	
 	ScannerClass scanner(file);
 	//std::cout << scanner.PeekNextToken() << std::endl;

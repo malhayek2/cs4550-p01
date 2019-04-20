@@ -41,6 +41,8 @@ const unsigned char JGE = 0x7D;
 const unsigned char JE = 0x74;
 const unsigned char JNE = 0x75;
 
+/**/
+const unsigned char PUSH_EDX = 0x52;
 //const unsigned char JE_WORD = 0x84; // 2 byte jump does NOT work!
 const unsigned char JE_FAR1 = 0x0f; // 4 byte jump
 const unsigned char JE_FAR2 = 0x84; // 4 byte jump
@@ -300,6 +302,16 @@ void InstructionsClass::PopPopDivPush()
 	Encode(DIV_EAX_EBX1);
 	Encode(DIV_EAX_EBX2);
 	Encode(PUSH_EAX);
+}
+
+void InstructionsClass::PopPopModPush()
+{
+	Encode(POP_EBX);
+	Encode(POP_EAX);
+	Encode(CDQ);// Necessary to clear the D register for a 64 bit divide.
+	Encode(DIV_EAX_EBX1);
+	Encode(DIV_EAX_EBX2);
+	Encode(PUSH_EDX);
 }
 
 void InstructionsClass::PopPopComparePush(unsigned char relational_operator)

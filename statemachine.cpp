@@ -42,6 +42,7 @@ StateMachineClass::StateMachineClass()
 	mLegalMoves[START_STATE][END_CHAR]=END_STATE;
 	mLegalMoves[START_STATE][AND_CHAR]=AND_STATE;
 	mLegalMoves[START_STATE][OR_CHAR]=OR_STATE;
+	mLegalMoves[START_STATE][MOD_CHAR]=MOD_STATE;
 
 	mLegalMoves[IDENTIFIER_STATE][LETTER_CHAR]=IDENTIFIER_STATE;
 	mLegalMoves[IDENTIFIER_STATE][DIGIT_CHAR]=IDENTIFIER_STATE;
@@ -71,6 +72,7 @@ StateMachineClass::StateMachineClass()
 	mLegalMoves[PLUS_STATE][EQUAL_CHAR]=PLUSEQUAL_STATE;
 	mLegalMoves[MINUS_STATE][EQUAL_CHAR]=MINUSEQUAL_STATE;
 	mLegalMoves[TIMES_STATE][EQUAL_CHAR]=TIMESEQUAL_STATE;
+	mLegalMoves[DIVIDE_STATE][EQUAL_CHAR]=DIVIDEEQUAL_STATE;
 	//tokens
 	// First, initialize all states to correspond to the BAD token type.
 	// Then, reset the end states to correspond to the correct token types.
@@ -110,6 +112,9 @@ StateMachineClass::StateMachineClass()
 	mCorrespondingTokenTypes[PLUSEQUAL_STATE] = PLUSEQUAL_TOKEN;
 	mCorrespondingTokenTypes[MINUSEQUAL_STATE] = MINUSEQUAL_TOKEN;
 	mCorrespondingTokenTypes[TIMESEQUAL_STATE] = TIMESEQUAL_TOKEN;
+	mCorrespondingTokenTypes[DIVIDEEQUAL_STATE] = DIVIDEEQUAL_TOKEN;
+	
+	mCorrespondingTokenTypes[MOD_STATE] = MOD_TOKEN;
 	/*Other Characters:*/
 	mCorrespondingTokenTypes[SEMICOLON_STATE] = SEMICOLON_TOKEN;
 	mCorrespondingTokenTypes[LPAREN_STATE] = LPAREN_TOKEN;
@@ -173,6 +178,7 @@ MachineState StateMachineClass::UpdateState(char currentCharacter,TokenType & co
 	else if(currentCharacter==';'){charType = SEMICOLON_CHAR;}
 	else if(currentCharacter=='&'){charType = AND_CHAR;}
 	else if(currentCharacter=='|'){charType = OR_CHAR;}
+	else if(currentCharacter=='%'){charType = MOD_CHAR;}
 	else if(currentCharacter==EOF){charType = ENDFILE_CHAR;}
 
 	lastchar=currentCharacter;

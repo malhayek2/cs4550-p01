@@ -1,6 +1,8 @@
 // This code snippet prints 100 the full ten times.
 void main()
 {
+	//cout << "Rpeat Test 10 times" << endl;
+	/*
 	int count;
 	count = 10;
 	repeat (count)
@@ -8,4 +10,37 @@ void main()
 	cout << 100;
 	count = count - 2;
 	}
+	*/
+	
+	//cout << "DoWhile Test 5 Times" << endl;
+	/*
+	int doI;
+	doI = 0;
+	int doI2;
+	doI2 = 5;
+	do{
+		cout << 1 <<endl;
+		doI += 1;
+	}while(doI < 5);
+
+	do{
+		cout << 1 <<endl;
+		
+	}while(doI2 > 5);
+	*/
+	//cout << "While Statement Test 10 & 10 times" << endl;
+	/*
+	int z;
+	z=10;
+	while(z>0)
+	{
+		z-=1;
+		cout<<z;
+	}
+	while(z<10)
+	{
+		z+=1;
+		cout<<z;
+	}
+	*/
 }

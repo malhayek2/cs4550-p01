@@ -121,8 +121,9 @@ void AssignmentStatementNode::Interpret()
 }
 void AssignmentStatementNode::Code(InstructionsClass &instr){
 	mExpressionNode->CodeEvaluate(instr);
-	int index=mIdentifierNode->GetIndex();
 	/*replicate the position in the sybmoltable into our mCode Array*/
+	int index=mIdentifierNode->GetIndex();
+	
 	instr.PopAndStore(index);
 }
 /**/
@@ -175,6 +176,7 @@ void CoutStatementNode::Code(InstructionsClass &instr) {
 ExpressionNode::ExpressionNode(){
 
 }
+
 ExpressionNode::~ExpressionNode(){
 
 }
@@ -557,12 +559,15 @@ void IfStatementNode::Interpret()
 }
 void IfStatementNode::Code(InstructionsClass &instr)
 {
+	// EXP << skip << a1 << statment << a2 << jump(skip, a2-a1)
 	MSG("Coded IfStatmentNode");
 	mExpressionNode->CodeEvaluate(instr);
 	unsigned char *InsertAddress=instr.SkipIfZeroStack();
 	unsigned char *FromAddress=instr.GetAddress();
 	
-	if(!this->isElse){this->mStatementNode->Code(instr);}
+	if(!this->isElse){
+		this->mStatementNode->Code(instr);
+	}
 	else if(this->isElse)
 	{
 		if(this->mExpressionNode->Evaluate()!=0) 
@@ -638,9 +643,9 @@ void RepeatStatementNode::Interpret()
 {
 	/*expression evaluted return an integer should be stored*/
 	int expression = this->mExpressionNode->Evaluate();
-	MSG("expression is" << expression);
+	// MSG("expression is" << expression);
 	for (int i = 0; i < expression; i++) {
-		MSG("Doing forloop : " << i);
+		// MSG("Doing forloop : " << i);
 		this->mStatementNode->Interpret();
 
 	}
@@ -650,12 +655,29 @@ void RepeatStatementNode::Interpret()
 
 void RepeatStatementNode::Code(InstructionsClass &instr)
 {
+	/*
+	mExpressionNode->CodeEvaluate(instr);	
+	unsigned char * addy0 = instr.GetAddress();
+	// instr.PopPushPush();
+	instr.PopPopOrPush();
+	unsigned char *jumpaddy1 = instr.SkipIfZeroStack();
+	unsigned char * addy1 = instr.GetAddress();
+	instr.PushValue(1);
+	instr.PopPopSubPush();
+	mStatementNode->Code(instr);
+	unsigned char *jumpaddy2 = instr.Jump();
+	unsigned char *address2 = instr.GetAddress();
+	instr.SetOffset(jumpaddy2, (addy0 - address2));
+	instr.SetOffset(jumpaddy1, (address2 - addy1));
+	*/
+	/*Statment >> EXP >> SKIPIFZERO >> JUMP*/
 	MSG("Coded RepeatStatementNode");
 	unsigned char *Address0=instr.GetAddress();
-	mExpressionNode->CodeEvaluate(instr);
+	
+	mStatementNode->Code(instr);
 	unsigned char *Offset1=instr.SkipIfZeroStack();
 	unsigned char *Address1=instr.GetAddress();
-	mStatementNode->Code(instr);
+	mExpressionNode->CodeEvaluate(instr);
 	unsigned char *Offset2=instr.Jump();
 	unsigned char *Address2=instr.GetAddress();
 	
@@ -663,3 +685,126 @@ void RepeatStatementNode::Code(InstructionsClass &instr)
 	instr.SetOffset(Offset1,(Address2-Address1));//while loop has ended
 }
 
+
+/**additional Operator Nodes ! *=,/=,+=,-= **/
+
+MinusEqualNode::MinusEqualNode(IdentifierNode* left, ExpressionNode * right)
+	: AssignmentStatementNode(left, right), mExpressionNode(right), mIdentifierNode(left)
+{
+	MSG("Initializing MinusEqualNode");
+}
+
+void MinusEqualNode::Interpret() {
+	int val = mExpressionNode->Evaluate();
+	mIdentifierNode->SetValue(mIdentifierNode->Evaluate() - val);
+}
+void MinusEqualNode::Code(InstructionsClass &instr) {
+	mIdentifierNode->CodeEvaluate(instr);
+	mExpressionNode->CodeEvaluate(instr);
+	instr.PopPopSubPush();
+	/**/
+	// std::string exists = mIdentifierNode->GetLabel();
+	instr.PopAndStore(mIdentifierNode->GetIndex());
+}
+/**/
+
+PlusEqualNode::PlusEqualNode(IdentifierNode* left, ExpressionNode * right)
+	: AssignmentStatementNode(left, right), mExpressionNode(right), mIdentifierNode(left)
+{
+	MSG("Initializing PlusEqualNode");
+}
+
+void PlusEqualNode::Interpret() {
+	int val = mExpressionNode->Evaluate();
+	mIdentifierNode->SetValue(mIdentifierNode->Evaluate() + val);
+}
+void PlusEqualNode::Code(InstructionsClass &instr) {
+	mIdentifierNode->CodeEvaluate(instr);
+	mExpressionNode->CodeEvaluate(instr);
+	instr.PopPopAddPush();
+	// std::string exists = mIdentifierNode->GetLabel();
+	instr.PopAndStore(mIdentifierNode->GetIndex());
+}
+/**/
+
+TimesEqualNode::TimesEqualNode(IdentifierNode* left, ExpressionNode * right)
+	: AssignmentStatementNode(left, right), mExpressionNode(right), mIdentifierNode(left)
+{
+	MSG("Initializing TimesEqualNode");
+}
+
+void TimesEqualNode::Interpret() {
+	int val = mExpressionNode->Evaluate();
+	mIdentifierNode->SetValue(mIdentifierNode->Evaluate() * val);
+}
+void TimesEqualNode::Code(InstructionsClass &instr) {
+	mIdentifierNode->CodeEvaluate(instr);
+	mExpressionNode->CodeEvaluate(instr);
+	instr.PopPopMulPush();
+	// std::string exists = mIdentifierNode->GetLabel();
+	instr.PopAndStore(mIdentifierNode->GetIndex());
+}
+
+DivideEqualNode::DivideEqualNode(IdentifierNode* left, ExpressionNode * right)
+	: AssignmentStatementNode(left, right), mExpressionNode(right), mIdentifierNode(left)
+{
+	MSG("Initializing DivideEqualNode");
+}
+void DivideEqualNode::Interpret() {
+	int val = mExpressionNode->Evaluate();
+	mIdentifierNode->SetValue(mIdentifierNode->Evaluate() / val);
+}
+void DivideEqualNode::Code(InstructionsClass &instr) {
+	mIdentifierNode->CodeEvaluate(instr);
+	mExpressionNode->CodeEvaluate(instr);
+	instr.PopPopDivPush();
+	// std::string exists = mIdentifierNode->GetLabel();
+	instr.PopAndStore(mIdentifierNode->GetIndex());
+}
+
+ModulusNode::ModulusNode(ExpressionNode * left, ExpressionNode * right)
+	: BinaryOperatorNode(left, right)
+{
+	MSG("Initializing ModulusNode");
+}
+
+int ModulusNode::Evaluate() {
+	int sum = 0;
+	sum = left->Evaluate() % right->Evaluate();
+	return sum;
+}
+
+void ModulusNode::CodeEvaluate(InstructionsClass &instr) {
+	left->CodeEvaluate(instr);
+	right->CodeEvaluate(instr);
+	instr.PopPopModPush();
+}
+/**/
+DoWhileNode::DoWhileNode(ExpressionNode* e, StatementNode * s)
+	:StatementNode(), mExpressionNode(e), mStatementNode(s)
+{
+
+}
+DoWhileNode::~DoWhileNode() {
+	MSG("Deleting DoWHILE node");
+	delete mExpressionNode;
+	delete mStatementNode;
+}
+void DoWhileNode::Interpret() {
+	do { mStatementNode->Interpret(); 
+	} while (mExpressionNode->Evaluate());
+}
+void DoWhileNode::Code(InstructionsClass &instr) {
+		mStatementNode->Code(instr);
+		unsigned char *address1 = instr.GetAddress();
+		mExpressionNode->CodeEvaluate(instr);
+		unsigned char * expressionjump = instr.SkipIfZeroStack(); // pops a non-zero or a zero from the stack
+		unsigned char *address2 = instr.GetAddress();
+		mStatementNode->Code(instr);
+		unsigned char *loopjump = instr.Jump();
+		unsigned char * address4 = instr.GetAddress();
+		
+		instr.SetOffset(expressionjump, address4 - address2);
+		instr.SetOffset(loopjump, (address1 - address4));
+}
+/**/

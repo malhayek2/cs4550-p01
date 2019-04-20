@@ -18,6 +18,7 @@ private:
 	IfStatementNode * If();
 	WhileStatementNode * While();
 	RepeatStatementNode * Repeat();
+	DoWhileNode* DoWHILE();
 	
 	DeclarationStatementNode * DeclarationStatement();
 	AssignmentStatementNode * AssignmentStatement();
