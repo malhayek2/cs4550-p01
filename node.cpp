@@ -671,18 +671,18 @@ void RepeatStatementNode::Code(InstructionsClass &instr)
 	instr.SetOffset(jumpaddy1, (address2 - addy1));
 	*/
 	/*Statment >> EXP >> SKIPIFZERO >> JUMP*/
-	MSG("Coded RepeatStatementNode");
-	unsigned char *Address0=instr.GetAddress();
+	// MSG("Coded RepeatStatementNode");
+	// unsigned char *Address0=instr.GetAddress();
 	
-	mStatementNode->Code(instr);
-	unsigned char *Offset1=instr.SkipIfZeroStack();
-	unsigned char *Address1=instr.GetAddress();
-	mExpressionNode->CodeEvaluate(instr);
-	unsigned char *Offset2=instr.Jump();
-	unsigned char *Address2=instr.GetAddress();
+	// mStatementNode->Code(instr);
+	// unsigned char *Offset1=instr.SkipIfZeroStack();
+	// unsigned char *Address1=instr.GetAddress();
+	// mExpressionNode->CodeEvaluate(instr);
+	// unsigned char *Offset2=instr.Jump();
+	// unsigned char *Address2=instr.GetAddress();
 	
-	instr.SetOffset(Offset2,(Address0-Address2));//return to begining
-	instr.SetOffset(Offset1,(Address2-Address1));//while loop has ended
+	// instr.SetOffset(Offset2,(Address0-Address2));//return to begining
+	// instr.SetOffset(Offset1,(Address2-Address1));//while loop has ended
 }
 
 

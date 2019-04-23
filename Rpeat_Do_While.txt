@@ -1,15 +1,16 @@
 // This code snippet prints 100 the full ten times.
 void main()
 {
-	/* code not working
+	//code not working
 	int count;
 	count = 10;
-	repeat (count)
+	
+	while (count)
 	{
 	cout << 100;
 	count = count - 2;
 	}
-	*/
+	
 	int doI;
 	doI = 0;
 	cout << 1;

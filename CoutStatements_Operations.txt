@@ -11,7 +11,7 @@ void main()
 	t=4-3;
 	cout<<t << endl;
 	cout << 1 << 2 << 3 << endl;
-	cout << t << u << endl;
+	cout << t << u << endl << 1 << endl;
 	
 	int a;
 	a = 10;
@@ -30,6 +30,22 @@ void main()
     {
         cout << num << endl;
     }
+    //DoWhile
+	int doI;
+	doI = 0;
+	cout << 1;
+	do{
+		cout << 1 <<endl;
+		doI += 1;
+	}while(doI < 5);
 
+	int count;
+	count = 10;
+	
+	while (count)
+	{
+	cout << 100;
+	count = count - 2;
+	}
 
 }

@@ -159,7 +159,7 @@ int main()
 	
 	
 	StartNode *sn = pc.Start();
-	sn->Interpret();
+	// sn->Interpret();
 	sn->Code(ic);
 	ic.Finish();
 	ic.Execute();
