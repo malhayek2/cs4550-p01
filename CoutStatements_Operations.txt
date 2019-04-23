@@ -38,7 +38,7 @@ void main()
 		cout << 1 <<endl;
 		doI += 1;
 	}while(doI < 5);
-
+	/*WHILE STATEMENT*/
 	int count;
 	count = 10;
 	
